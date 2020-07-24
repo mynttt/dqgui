@@ -1,7 +1,0 @@
-dependencies {
-    implementation "org.antlr:antlr4:4.7.1"
-    implementation group: 'org.rosuda.REngine', name: 'Rserve', version: '1.8.1'
-    
-    compileOnly group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
-    compileOnly group: 'org.mongodb', name: 'mongo-java-driver', version: '3.8.2'
-}
