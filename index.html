@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>DQGUI Project Documentation - DQGUI Documentation</title>
+        <meta name="description" content="User and developer documentation">
+
+        <link href="css/bootstrap-2.3.2-combined.no-icons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/syntax.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class=row-fluid id=header>
+                <div id=site-title class=span8>
+                    <h4><a class=brand href="index.html">DQGUI Documentation</a>
+    <small>User and developer documentation</small>
+</h4>
+
+
+                </div>
+                <div id=search class=span4>
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=navigation class=span2>
+                    <ul class="nav nav-list">
+  <li class="nav-header"><a href="javaDocs/index.html">DQGUI Javadoc</a></li>
+    
+
+    
+      
+      
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Documentation</li>
+            
+          
+
+          
+          
+            <li><a href="building.html">Building DQGUI</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="dba.html">Database Abstraction Layer</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="remote-execution.html">Remote Execution Server</a></li>
+          
+          
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Tutorial</li>
+            
+          
+
+          
+          
+            <li><a href="tut-mongo.html">Engine Tutorial: Mongo</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="tut-pg.html">Engine Tutorial: Postgres</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Reference</li>
+            
+          
+
+          
+          
+            <li><a href="editor.html">Code Editor</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="databases.html">Database Management</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="execution.html">Execution and Reports</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="other.html">Other Features</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="projects.html">Projects</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+</ul>
+
+                </div>
+
+                <div id=content class=span10>
+                                    <section id="search-results" style="display: none;">
+                    <p>Search results</p>
+                    <div class="entries"></div>
+                </section>
+
+
+                    <h1 class="page-header">DQGUI Project Documentation
+                        
+                    </h1>
+
+                    <h3 id="get-started-with-dqgui">Get Started With DQGUI</h3>
+
+<p>Welcome to the DQGUI project documentation.  This documentation aims to help DQGUI users understand how the application works by:</p>
+
+<ul>
+  <li>listing capabilities, special behavior and key codes</li>
+  <li>providing tutorials regarding common scenarios</li>
+  <li>helping developers extending the database abstraction layer</li>
+</ul>
+
+<h3 id="runtime-requirements">Runtime Requirements</h3>
+
+<h4 id="dqgui">DQGUI</h4>
+
+<p>DQGUI only runs on every Java 8 JDK that includes the JavaFX runtime.
+Known JDKs that include the JavaFX runtime are the Oracle JDK or the OpenJDK with the OpenJFX module installed</p>
+
+<h4 id="dqgui-remote-execution-server">DQGUI Remote Execution Server</h4>
+
+<p>The remote execution server has no JavaFX JDK dependencies and should run on every JDK that supports Java &gt;= 8.</p>
+
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=footer class=span12>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

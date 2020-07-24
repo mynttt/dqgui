@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>Database Management - DQGUI Documentation</title>
+        <meta name="description" content="User and developer documentation">
+
+        <link href="css/bootstrap-2.3.2-combined.no-icons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/syntax.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class=row-fluid id=header>
+                <div id=site-title class=span8>
+                    <h4><a class=brand href="index.html">DQGUI Documentation</a>
+    <small>User and developer documentation</small>
+</h4>
+
+
+                </div>
+                <div id=search class=span4>
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=navigation class=span2>
+                    <ul class="nav nav-list">
+  <li class="nav-header"><a href="javaDocs/index.html">DQGUI Javadoc</a></li>
+    
+
+    
+      
+      
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Documentation</li>
+            
+          
+
+          
+          
+            <li><a href="building.html">Building DQGUI</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="dba.html">Database Abstraction Layer</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="remote-execution.html">Remote Execution Server</a></li>
+          
+          
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Tutorial</li>
+            
+          
+
+          
+          
+            <li><a href="tut-mongo.html">Engine Tutorial: Mongo</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="tut-pg.html">Engine Tutorial: Postgres</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Reference</li>
+            
+          
+
+          
+          
+            <li><a href="editor.html">Code Editor</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li class="active"><a href="databases.html">Database Management</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="execution.html">Execution and Reports</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="other.html">Other Features</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="projects.html">Projects</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+</ul>
+
+                </div>
+
+                <div id=content class=span10>
+                                    <section id="search-results" style="display: none;">
+                    <p>Search results</p>
+                    <div class="entries"></div>
+                </section>
+
+
+                    <h1 class="page-header">Database Management
+                        
+                    </h1>
+
+                    <ol>
+  <li><a href="#environments">Environments</a>
+    <ol>
+      <li><a href="#managing-environments">Managing Environments</a></li>
+    </ol>
+  </li>
+  <li><a href="#managing-connections">Managing Connections</a>
+    <ol>
+      <li><a href="#creation">Creation</a></li>
+      <li><a href="#modification">Modification</a></li>
+      <li><a href="#deletion">Deletion</a></li>
+      <li><a href="#test">Test</a></li>
+    </ol>
+  </li>
+  <li><a href="#compare-connections-and-environments">Compare Connections and Environments</a></li>
+</ol>
+
+
+<hr></hr>
+
+<p>DQGUI categorizes database connections into environments. Every project has their own set of environments that contain connections.</p>
+
+<p>A connection is not an actual connection in the sense of being connected to a database, but rather a set of credentials required to connect to said database.</p>
+
+<h3 id="environments">Environments</h3>
+
+<p>Environments can hold multiple connections with the same identifier, but there are some constraints.
+- there can’t be two environments with the same identifier
+- there can’t be two connections within the same environment sharing an identifier
+- the default environment can’t be deleted</p>
+
+<p><img src="environments.PNG" style="display: block;margin: 1em auto 1.2em auto;" width="300px" /></p>
+
+<p>You can select the current environment by using the combobox right to the database icon.</p>
+
+<h4 id="managing-environments">Managing Environments</h4>
+
+<p><img src="db_wizard.PNG" style="display: block;margin: 1em auto 1.2em auto;" width="400px" /></p>
+
+<p>You can create / delete environment by either using the context menu entries or the first page of the <code class="highlighter-rouge">DQGUI -&gt; Database Wizard</code>.</p>
+
+<p>Renaming an environment is possible by double clicking the environment name within the first page of ´DQGUI -&gt; Database Wizard`, changing the name and than hitting enter.</p>
+
+<h3 id="managing-connections">Managing Connections</h3>
+
+<p><img src="db_wizard_2.PNG" style="display: block;margin: 1em auto 1.2em auto;" width="400px" /></p>
+
+<h4 id="creation">Creation</h4>
+
+<p>To create a connection either use the <code class="highlighter-rouge">Create connection in</code> context menu entry of an environment or open the database wizard.</p>
+
+<p>The wizard will guide you through the creation process and also allows you to test your connection.</p>
+
+<p>This will not prevent you from adding invalid connections as it depends on the engine implementation if a test is provided.</p>
+
+<h4 id="modification">Modification</h4>
+
+<p>To modify a connection use the <code class="highlighter-rouge">Edit</code> context menu entry.</p>
+
+<h4 id="deletion">Deletion</h4>
+
+<p>A connection can be deleted by using the <code class="highlighter-rouge">Remove</code> context menu entry.</p>
+
+<h4 id="test">Test</h4>
+
+<p>You can test a connection either via the wizard view or by using the <code class="highlighter-rouge">Test</code> context menu entry.</p>
+
+<h3 id="compare-connections-and-environments">Compare Connections and Environments</h3>
+
+<p>Via <code class="highlighter-rouge">DQGUI -&gt; Database Comparison</code> it is possible to compare database connections and environments with each other.</p>
+
+<p>Differences will be shown in the text area.</p>
+
+<p><img src="diff.png" alt="" /></p>
+
+
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=footer class=span12>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

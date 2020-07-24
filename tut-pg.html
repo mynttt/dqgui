@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>Engine Tutorial: Postgres - DQGUI Documentation</title>
+        <meta name="description" content="User and developer documentation">
+
+        <link href="css/bootstrap-2.3.2-combined.no-icons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/syntax.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class=row-fluid id=header>
+                <div id=site-title class=span8>
+                    <h4><a class=brand href="index.html">DQGUI Documentation</a>
+    <small>User and developer documentation</small>
+</h4>
+
+
+                </div>
+                <div id=search class=span4>
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=navigation class=span2>
+                    <ul class="nav nav-list">
+  <li class="nav-header"><a href="javaDocs/index.html">DQGUI Javadoc</a></li>
+    
+
+    
+      
+      
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Documentation</li>
+            
+          
+
+          
+          
+            <li><a href="building.html">Building DQGUI</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="dba.html">Database Abstraction Layer</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="remote-execution.html">Remote Execution Server</a></li>
+          
+          
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Tutorial</li>
+            
+          
+
+          
+          
+            <li><a href="tut-mongo.html">Engine Tutorial: Mongo</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li class="active"><a href="tut-pg.html">Engine Tutorial: Postgres</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Reference</li>
+            
+          
+
+          
+          
+            <li><a href="editor.html">Code Editor</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="databases.html">Database Management</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="execution.html">Execution and Reports</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="other.html">Other Features</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="projects.html">Projects</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+</ul>
+
+                </div>
+
+                <div id=content class=span10>
+                                    <section id="search-results" style="display: none;">
+                    <p>Search results</p>
+                    <div class="entries"></div>
+                </section>
+
+
+                    <h1 class="page-header">Engine Tutorial: Postgres
+                        
+                    </h1>
+
+                    <ol>
+  <li><a href="#preconditions">Preconditions</a></li>
+  <li><a href="#workload">Workload</a></li>
+  <li><a href="#integrating-with-build-script">Integrating with Build Script</a></li>
+  <li><a href="#setting-up-resources">Setting up resources</a></li>
+  <li><a href="#extending-databaseengine">Extending DatabaseEngine</a></li>
+  <li><a href="#yaml-configuration">YAML Configuration</a>
+    <ol>
+      <li><a href="#schema">Schema</a></li>
+      <li><a href="#queries">Queries</a></li>
+    </ol>
+  </li>
+  <li><a href="#result">Result</a></li>
+</ol>
+
+
+<hr></hr>
+
+<p><strong>It is required that the article on the <a href="dba.html">Database Abstraction Layer</a> has been read thoroughly in order to be able to follow this tutorial.</strong></p>
+
+<p>This tutorial will show how Postgres support is implemented via the Database Abstraction Layer.</p>
+
+<h3 id="preconditions">Preconditions</h3>
+
+<ul>
+  <li>Postgres is relational</li>
+  <li>A JDBC driver exists for Postgres</li>
+  <li>We want to add repository and IQM4HD support</li>
+</ul>
+
+<h3 id="workload">Workload</h3>
+<ul>
+  <li>No <a href="javaDocs/de/hshannover/dqgui/execution/database/api/DatabaseFetcher.html">Fetcher</a> needs to be written as we can use the <a href="javaDocs/de/hshannover/dqgui/execution/database/fetchers/JdbcFetcher.html">JdbcFetcher</a> implementation.</li>
+  <li>We will use the <a href="javaDocs/de/hshannover/dqgui/execution/database/gui/GuiConfiguration.html">ofJDBCommon() GuiConfiguration with two icons</a></li>
+  <li>We will add repository support via <a href="javaDocs/de/hshannover/dqgui/dbsupport/JdbcRepository.html">JdbcRepository</a> and <a href="javaDocs/de/hshannover/dqgui/execution/database/api/YamlConfigurableRelationalRepositorySupport.html">YamlConfigurableRelationalRepositorySupport</a></li>
+  <li>We will have to implement a <a href="javaDocs/de/hshannover/dqgui/execution/database/api/DatabaseEngine.html#createDataSourceUrl-de.hshannover.dqgui.execution.database.api.DatabaseConnection-">createDataSourceUrl()</a> since it is a JDBC backed engine</li>
+</ul>
+
+<h3 id="integrating-with-build-script">Integrating with Build Script</h3>
+
+<p>We start by unzipping the sub-project skeleton, registering it with the build script and changing all placeholder identifiers to <code class="highlighter-rouge">postgres</code> and adding the Postgres JDBC driver to our sub-project.</p>
+
+<div class="language-gradle highlighter-rouge"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/org.postgresql/postgresql</span>
+<span class="n">implementation</span> <span class="nl">group:</span> <span class="s1">'org.postgresql'</span><span class="o">,</span> <span class="nl">name:</span> <span class="s1">'postgresql'</span><span class="o">,</span> <span class="nl">version:</span> <span class="s1">'42.2.8'</span>
+</code></pre>
+</div>
+
+<h3 id="setting-up-resources">Setting up resources</h3>
+
+<p>We copy the two yaml configuration files from the support files zip into <code class="highlighter-rouge">engine/postgres</code> within the resource folder.</p>
+
+<p>We also search the internet for icons that shall be displayed in the wizard and menu and place them in the <code class="highlighter-rouge">engine/postgres</code> folder as well with the following names:
+- wizard icon: <code class="highlighter-rouge">POSTGRES.png</code>
+- list icon: <code class="highlighter-rouge">postgres_menu.png</code></p>
+
+<p>Our resource folder looks like this now:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>└── src
+    ├── main                    
+    │   │                       
+    │   └── resources
+    │       └── engine
+    │           └── postgres
+    │               ├── POSTGRES.png
+    │               ├── postgres_menu.png
+    │               ├── postgres_queries.yml
+    │               └── postgres_schema.yml
+</code></pre>
+</div>
+
+<h3 id="extending-databaseengine">Extending DatabaseEngine</h3>
+
+<p>Now we can implement our <a href="javaDocs/de/hshannover/dqgui/execution/database/api/DatabaseEngine.html">DatabaseEngine</a> subclass in the <code class="highlighter-rouge">de.hshannover.dqgui.engine</code> package.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">de</span><span class="o">.</span><span class="na">hshannover</span><span class="o">.</span><span class="na">dqgui</span><span class="o">.</span><span class="na">engine</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PostgresEngine</span> <span class="kd">extends</span> <span class="n">DatabaseEngine</span> <span class="o">{</span>
+    <span class="c1">// Define resource location to resolve resources</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">RESOURCES</span> <span class="o">=</span> <span class="s">"/engine/postgres/"</span><span class="o">;</span>
+
+    <span class="kd">protected</span> <span class="nf">PostgresEngine</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">();</span>
+    <span class="c1">// set identifer after convention</span>
+        <span class="n">registerIdentifier</span><span class="o">(</span><span class="s">"postgres"</span><span class="o">);</span>
+    <span class="c1">// default port for the gui wizard</span>
+        <span class="n">registerPort</span><span class="o">(</span><span class="mi">5432</span><span class="o">);</span>
+    <span class="c1">// register language for iqm4hd </span>
+        <span class="n">registerLanguage</span><span class="o">(</span><span class="s">"sql"</span><span class="o">);</span>
+        
+    <span class="c1">// load schema and queries yaml files</span>
+        <span class="n">String</span> <span class="n">schema</span> <span class="o">=</span> <span class="n">CharStreams</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span>
+                <span class="n">PostgresEngine</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="n">RESOURCES</span> <span class="o">+</span> <span class="s">"postgres_schema.yml"</span><span class="o">),</span> 
+                    <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">));</span>
+        <span class="n">String</span> <span class="n">queries</span> <span class="o">=</span> <span class="n">CharStreams</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span>
+                <span class="n">PostgresEngine</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="n">RESOURCES</span> <span class="o">+</span> <span class="s">"postgres_queries.yml"</span><span class="o">),</span> 
+                    <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">));</span>
+                
+    <span class="c1">// load our repository support, more regarding this class later on</span>
+        <span class="n">registerRepositorySupport</span><span class="o">(</span><span class="k">new</span> <span class="n">PostgresRepositorySupport</span><span class="o">(</span><span class="n">schema</span><span class="o">,</span> <span class="n">queries</span><span class="o">));</span>
+        
+    <span class="c1">// using JDBCCommon and linking our icons</span>
+        <span class="n">registerGuiSupport</span><span class="o">(</span>
+                <span class="n">GuiConfiguration</span><span class="o">.</span><span class="na">ofJDBCCommon</span><span class="o">(</span>
+                        <span class="n">Icon</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">RESOURCES</span> <span class="o">+</span> <span class="s">"POSTGRES.png"</span><span class="o">),</span> 
+                        <span class="n">Icon</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">RESOURCES</span> <span class="o">+</span> <span class="s">"postgres_menu.png"</span><span class="o">)</span>
+                        <span class="o">)</span>
+                <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">loadDatabaseDriver</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">ClassNotFoundException</span> <span class="o">{</span>
+    <span class="c1">// we must trigger the static initializer within the postgres driver</span>
+    <span class="c1">// otherwise we will get an exception from the JDBC DriverManager</span>
+        <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"org.postgresql.Driver"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">DatabaseFetcher</span> <span class="nf">createFetcher</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// redirect to the already existing JdbcFetcher</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">JdbcFetcher</span><span class="o">(</span><span class="n">connection</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">name</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"Postgres"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isRelational</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">allowUseForRepository</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">allowUseForIqm4hd</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">supportsJdbc</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">createDataSourceUrl</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// converting our connection to a datasource url</span>
+    <span class="c1">// postgres specifies their datasource schema here</span>
+    <span class="c1">// https://jdbc.postgresql.org/documentation/80/connect.html</span>
+
+        <span class="n">StringBuilder</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getFormat</span><span class="o">()</span> <span class="o">==</span> <span class="n">HostFormat</span><span class="o">.</span><span class="na">IPv6</span> 
+                    <span class="o">?</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"[%s]"</span><span class="o">,</span> <span class="n">connection</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getHost</span><span class="o">())</span> 
+                    <span class="o">:</span> <span class="n">connection</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getHost</span><span class="o">();</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"jdbc:postgresql://%s:%d/%s?user=%s&amp;password=%s"</span><span class="o">,</span>
+                <span class="n">host</span><span class="o">,</span>
+                <span class="n">connection</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getPort</span><span class="o">(),</span>
+                <span class="n">connection</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getDatabase</span><span class="o">(),</span>
+                <span class="n">connection</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getUsername</span><span class="o">(),</span>
+                <span class="n">connection</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getPassword</span><span class="o">()</span>
+        <span class="o">));</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">getCustomParameters</span><span class="o">().</span><span class="na">forEach</span><span class="o">((</span><span class="n">k</span><span class="o">,</span> <span class="n">v</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"&amp;%s=%s"</span><span class="o">,</span> <span class="n">k</span><span class="o">,</span> <span class="n">v</span><span class="o">)));</span>
+        <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">DatabaseTestResult</span> <span class="nf">test</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// redirect to the already existing JDBC test implementation</span>
+        <span class="k">return</span> <span class="n">DatabaseTests</span><span class="o">.</span><span class="na">ofJDBC</span><span class="o">(</span><span class="n">connection</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">Repository</span><span class="o">&lt;?&gt;</span> <span class="n">createRepositoryForConnection</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// we shall use the JdbcRepository implementation that works because we registered</span>
+    <span class="c1">// our repository support in the constructor</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">JdbcRepository</span><span class="o">(</span><span class="n">connection</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre>
+</div>
+<p>### Extending YamlConfigurableRelationalRepositorySupport</p>
+
+<p>We implement our own repository support by extending <a href="javaDocs/de/hshannover/dqgui/execution/database/api/YamlConfigurableRelationalRepositorySupport.html">YamlConfigurableRelationalRepositorySupport</a> and overriding the <code class="highlighter-rouge">validateRepository</code> method.</p>
+
+<p>Since we want to validate the repository schema, we hard code our known valid data into the concrete class.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">de</span><span class="o">.</span><span class="na">hshannover</span><span class="o">.</span><span class="na">dqgui</span><span class="o">.</span><span class="na">engine</span><span class="o">.</span><span class="na">postgres</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PostgresRepositorySupport</span> <span class="kd">extends</span> <span class="n">YamlConfigurableRelationalRepositorySupport</span> <span class="o">{</span>
+    
+    <span class="c1">// Tests work by comparing type metadata (int flag) with already recorded correct type identifiers.</span>
+    <span class="c1">// JDBCRepository provides a &lt;String, Integer&gt; </span>
+    <span class="c1">// with table name and column data type that is compared with a should result.</span>
+    
+    <span class="cm">/* 1111 = JSON
+     * 1 = char(n)
+     * 4 = int
+     * 12 = text
+     */</span>
+    
+    <span class="kd">public</span> <span class="nf">PostgresRepositorySupport</span><span class="o">(</span><span class="n">String</span> <span class="n">yamlRawdataSchema</span><span class="o">,</span> <span class="n">String</span> <span class="n">yamlRawdataQueries</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">yamlRawdataSchema</span><span class="o">,</span> <span class="n">yamlRawdataQueries</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Hard code test data</span>
+
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"serial"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">INDEX</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{{</span> 
+        <span class="n">put</span><span class="o">(</span><span class="s">"project"</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+        <span class="n">put</span><span class="o">(</span><span class="s">"guid"</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">put</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="mi">12</span><span class="o">);</span>
+        <span class="n">put</span><span class="o">(</span><span class="s">"environments"</span><span class="o">,</span> <span class="mi">1111</span><span class="o">);</span>
+    <span class="o">}};</span>
+    
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"serial"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">RESULTS</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{{</span> 
+        <span class="n">put</span><span class="o">(</span><span class="s">"dqgui_meta"</span><span class="o">,</span> <span class="mi">1111</span><span class="o">);</span>
+        <span class="n">put</span><span class="o">(</span><span class="s">"iqm4hd_report"</span><span class="o">,</span> <span class="mi">1111</span><span class="o">);</span>
+        <span class="n">put</span><span class="o">(</span><span class="s">"iqm4hd_feedback"</span><span class="o">,</span> <span class="mi">1111</span><span class="o">);</span>
+        <span class="n">put</span><span class="o">(</span><span class="s">"hash"</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">put</span><span class="o">(</span><span class="s">"project"</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+    <span class="o">}};</span>
+    
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"serial"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">REPO</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{{</span> 
+        <span class="n">put</span><span class="o">(</span><span class="s">"type"</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+        <span class="n">put</span><span class="o">(</span><span class="s">"content"</span><span class="o">,</span> <span class="mi">12</span><span class="o">);</span>
+        <span class="n">put</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="mi">12</span><span class="o">);</span>
+        <span class="n">put</span><span class="o">(</span><span class="s">"extra_data"</span><span class="o">,</span> <span class="mi">1111</span><span class="o">);</span>
+        <span class="n">put</span><span class="o">(</span><span class="s">"project"</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+    <span class="o">}};</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">ValidationReport</span> <span class="nf">validateRepository</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">index</span><span class="o">,</span> 
+                                               <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">repo</span><span class="o">,</span> 
+                                               <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">results</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">errors</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">validateInternal</span><span class="o">(</span><span class="n">index</span><span class="o">,</span> <span class="n">INDEX</span><span class="o">,</span> <span class="s">"dqgui_index"</span><span class="o">,</span> <span class="s">"index"</span><span class="o">,</span> <span class="n">errors</span><span class="o">);</span>
+        <span class="n">validateInternal</span><span class="o">(</span><span class="n">repo</span><span class="o">,</span> <span class="n">REPO</span><span class="o">,</span> <span class="s">"dqgui_repo"</span><span class="o">,</span> <span class="s">"repository"</span><span class="o">,</span> <span class="n">errors</span><span class="o">);</span>
+        <span class="n">validateInternal</span><span class="o">(</span><span class="n">results</span><span class="o">,</span> <span class="n">RESULTS</span><span class="o">,</span> <span class="s">"dqgui_results"</span><span class="o">,</span> <span class="s">"results"</span><span class="o">,</span> <span class="n">errors</span><span class="o">);</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">errors</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span>
+            <span class="k">return</span> <span class="n">ValidationReport</span><span class="o">.</span><span class="na">success</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">ValidationReport</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="s">"\n\n"</span><span class="o">,</span> <span class="n">errors</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">validateInternal</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">is</span><span class="o">,</span> 
+                                  <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">should</span><span class="o">,</span> 
+                                  <span class="n">String</span> <span class="n">schemaName</span><span class="o">,</span> 
+                                  <span class="n">String</span> <span class="n">schemaId</span><span class="o">,</span> 
+                                  <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">errors</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="k">if</span><span class="o">(!</span><span class="n">Objects</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="n">is</span><span class="o">,</span> <span class="n">should</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">errors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span>
+                <span class="s">"Invalid %s schema!%nIs: %s | Should: %s | Should query: %s"</span><span class="o">,</span> 
+                <span class="n">schemaName</span><span class="o">,</span> 
+                <span class="n">is</span><span class="o">,</span> 
+                <span class="n">should</span><span class="o">,</span> 
+                <span class="n">getSchema</span><span class="o">(</span><span class="n">schemaId</span><span class="o">)));</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="yaml-configuration">YAML Configuration</h3>
+
+<p>In order to use a YamlConfigurableRelationalRepositorySupport two correct YAML configuration files have to be passed to its constructor.</p>
+
+<p>The constructor validates the configuration files and will throw an exception if a key:value pair is missing or a query does not contain the required named prepared statement parameter.</p>
+
+<p>These postgres sample files should be portable to other relational database systems with minimal changes (listed below).</p>
+
+<h4 id="schema">Schema</h4>
+
+<ul>
+  <li>json type might not be portable with other engines and could be replaced with a TEXT type</li>
+  <li>SERIAL keyword might not be portable with other engines</li>
+</ul>
+
+<hr />
+
+<p>With the actual schema being:</p>
+
+<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="c1"># Postgres Repository Schema</span>
+<span class="c1">#</span>
+<span class="c1"># When porting this schema:</span>
+<span class="c1"># - JSON can also be stored as raw text if the engine does not support a JSON type</span>
+<span class="c1"># - Column names are hard coded and must not change</span>
+
+<span class="c1"># Schema for projects and environments</span>
+<span class="s">index</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">CREATE TABLE dqgui_index(</span>
+  <span class="no">project SERIAL,</span>
+  <span class="no">name TEXT NOT NULL,</span>
+  <span class="no">guid CHAR(36) NOT NULL,</span>
+  <span class="no">environments JSON NOT NULL,</span>
+  <span class="no">PRIMARY KEY(project)</span>
+  <span class="no">);</span>
+
+<span class="c1"># Schema for results</span>
+<span class="s">results</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">CREATE TABLE dqgui_results(</span>
+  <span class="no">project INTEGER NOT NULL,</span>
+  <span class="no">hash CHAR(32) NOT NULL,</span>
+  <span class="no">dqgui_meta JSON NOT NULL,</span>
+  <span class="no">iqm4hd_report JSON NOT NULL,</span>
+  <span class="no">iqm4hd_feedback JSON NOT NULL,</span>
+  <span class="no">PRIMARY KEY(project, hash),</span>
+  <span class="no">FOREIGN KEY (project) REFERENCES dqgui_index(project)</span>
+  <span class="no">);</span>
+
+<span class="c1"># Schema for repository</span>
+<span class="s">repository</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">CREATE TABLE dqgui_repo(</span>
+  <span class="no">project INTEGER NOT NULL,</span>
+  <span class="no">type INTEGER NOT NULL,</span>
+  <span class="no">name TEXT NOT NULL,</span>
+  <span class="no">content TEXT NOT NULL,</span>
+  <span class="no">extra_data JSON NOT NULL,</span>
+  <span class="no">PRIMARY KEY(project, type, name),</span>
+  <span class="no">FOREIGN KEY (project) REFERENCES dqgui_index(project)</span>
+  <span class="no">);</span>
+</code></pre>
+</div>
+
+<h4 id="queries">Queries</h4>
+
+<ul>
+  <li>the ::json casts are definitely not portable and have to be removed</li>
+</ul>
+
+<p>Since no other crazy postgres features are used the queries should be portable.</p>
+
+<hr />
+
+<p>With the actual queries being:</p>
+
+<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="c1"># This is a configuration file for the YamlConfigurableRelationalRepositorySupport class implementing queries that work with the postgres_schema.yml</span>
+<span class="c1">#</span>
+<span class="c1"># YamlConfigurableRelationalRepositorySupport uses prepared statements internally.</span>
+<span class="c1">#</span>
+<span class="c1"># The schema and column names are hard coded into the JdbcRepository implementation and must be adhered.</span>
+<span class="c1">#</span>
+<span class="c1"># &lt; UNSAFE OPERATIONS &gt;</span>
+<span class="c1"># These operations do not rely on prepared statements and are thus plainly replaced.</span>
+<span class="c1">#</span>
+<span class="c1"># __TABLE__  : Table to query for</span>
+<span class="c1"># __TYPE_TUPEL__    : Tupel of types for multiple selection (for IN queries used by search)</span>
+<span class="c1">#</span>
+<span class="c1"># &lt; PREPARED PARAMETERS&gt;</span>
+<span class="c1"># :project       : Project identifier associated with query</span>
+
+<span class="c1"># :type          : Type of component (Magic Integer defined in DSLComponent enum)</span>
+<span class="c1"># :content       : text of components source code</span>
+<span class="c1"># :name          : Name of component</span>
+<span class="c1"># :new_name      : Name in move (to)</span>
+<span class="c1"># :old_name      : Name in move(from)</span>
+<span class="c1"># :extra_data    : Extra data json field</span>
+<span class="c1">#</span>
+<span class="c1"># :hash            : Hash identifier of result</span>
+<span class="c1"># :dqgui_meta      : JSON Serialized DQGUI metadata</span>
+<span class="c1"># :iqm4hd_report   : JSON Serialized IQM4HD metadata</span>
+<span class="c1"># :iqm4hd_feedback : JSON Serialized IQM4HD user report feedback</span>
+<span class="c1">#</span>
+<span class="c1"># :project_name    : Name of project</span>
+<span class="c1"># :guid            : guid of project</span>
+<span class="c1"># :environments    : database environments associated with project</span>
+<span class="c1">#</span>
+<span class="c1"># The return aliased as are only required if the common JDBC repository is used. </span>
+<span class="c1"># You are free to choose your own identifiers with your own implementation.</span>
+<span class="c1">#</span>
+<span class="c1"># As a standard a global check will get the project id 0. So to query for all components it must be searched in the tupel (0, :project).</span>
+<span class="c1">#</span>
+<span class="c1"># --------------------------------------------------------------------------------------</span>
+
+<span class="c1"># This query should deliver no results.</span>
+<span class="c1"># It is required to fetch the JDBC meta data set to check if the correct table schema is in place.</span>
+<span class="c1">#</span>
+<span class="c1"># Unsafe operation __TABLE__ is required because prepared statements don't allow you to SQL meta program queries.</span>
+<span class="s">Q_ALL_COLUMNS_NO_RESULTS</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">SELECT * FROM __TABLE__ WHERE 1 != 1;</span>
+
+<span class="c1"># Check if a component exists by returning the count of matching rows.</span>
+<span class="c1"># Must query global and project related entries as duplicate name identifiers should not exist</span>
+<span class="c1">#</span>
+<span class="c1"># Returns:</span>
+<span class="c1"># - matches: amount of matches (INTEGER) aliased as 'matches'</span>
+<span class="s">Q_COMPONENT_EXISTS</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">SELECT COUNT(type) AS matches FROM dqgui_repo WHERE type = :type AND name = :name AND project IN (0, :project);</span>
+
+<span class="c1"># Create an empty component within the repository schema.</span>
+<span class="s">Q_COMPONENT_CREATE_EMPTY</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">INSERT INTO dqgui_repo (project, type, name, content, extra_data) VALUES (:project, :type, :name, '', '{}');</span>
+
+<span class="c1"># Read a component's source from the repository</span>
+<span class="c1">#</span>
+<span class="c1"># Returns:</span>
+<span class="c1"># - content: string content of source aliased as 'content'</span>
+<span class="s">Q_COMPONENT_READ</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">SELECT content FROM dqgui_repo WHERE type = :type AND name = :name AND project = :project;</span>
+
+<span class="c1"># Update a components source code and extra data</span>
+<span class="s">Q_COMPONENT_UPDATE</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">UPDATE dqgui_repo SET content = :content, extra_data = :extra_data::json WHERE type = :type AND name = :name AND project = :project;</span>
+  
+<span class="c1"># Update a components extra data only</span>
+<span class="s">Q_COMPONENT_UPDATE_EXTRA_DATA_ONLY</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">UPDATE dqgui_repo SET extra_data = :extra_data::json WHERE type = :type AND name = :name AND project = :project;</span>
+
+<span class="c1"># Deletes a component from the repository</span>
+<span class="s">Q_COMPONENT_DELETE</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">DELETE FROM dqgui_repo WHERE type = :type AND name = :name AND project = :project;</span>
+
+<span class="c1"># Moves a component from one name to another name</span>
+<span class="s">Q_COMPONENT_MOVE</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">UPDATE dqgui_repo SET name = :new_name WHERE type = :type AND name = :old_name AND project = :project;</span>
+
+<span class="c1"># List all components in the repository.</span>
+<span class="c1"># Only lists type and name not the content.</span>
+<span class="c1">#</span>
+<span class="c1"># Returns:</span>
+<span class="c1"># - project: project id aliased as 'project'</span>
+<span class="c1"># - type: type identifier aliased as 'type'</span>
+<span class="c1"># - name: name aliased as 'name'</span>
+<span class="c1"># - extra_data: extra_data aliased as 'extra_data'</span>
+<span class="s">Q_COMPONENT_LIST_ALL</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">SELECT project, type, name, extra_data FROM dqgui_repo WHERE project IN (0, :project);</span>
+
+<span class="c1"># List all hashes within the result table.</span>
+<span class="c1">#</span>
+<span class="c1"># Returns:</span>
+<span class="c1"># - hash: hash identifier string aliased as 'hash'</span>
+<span class="s">Q_RESULT_LIST_ALL</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">SELECT hash FROM dqgui_results WHERE project = :project;</span>
+
+<span class="c1"># Delete a result form the result table by using the hash primary key.</span>
+<span class="s">Q_RESULT_DELETE</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">DELETE FROM dqgui_results WHERE hash = :hash AND project = :project;</span>
+
+<span class="c1"># Read a result by using the hash primary key.</span>
+<span class="c1">#</span>
+<span class="c1"># Returns:</span>
+<span class="c1"># - iqm4hd_report: Serialized IQM4HD JSON metadata as string aliased as 'iqm4hd_report'</span>
+<span class="c1"># - dqgui_meta: Serialized DQGUI JSON metadata as string aliased as 'dqgui_meta'</span>
+<span class="s">Q_RESULT_READ</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">SELECT iqm4hd_report, dqgui_meta FROM dqgui_results WHERE hash = :hash AND project = :project;</span>
+
+<span class="c1"># Create a result by inserting it into the results table.</span>
+<span class="s">Q_RESULT_CREATE</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">INSERT INTO dqgui_results (project, hash, dqgui_meta, iqm4hd_report, iqm4hd_feedback) VALUES (:project, :hash, :dqgui_meta::json, :iqm4hd_report::json, :iqm4hd_feedback::json);</span>
+  
+<span class="c1"># Request all components and their source that match a given type.</span>
+<span class="c1"># Multiple types could be queried here.</span>
+<span class="c1">#</span>
+<span class="c1"># Unsafe operation __TYPE_TUPEL__ is required to check which types are searched in.</span>
+<span class="c1">#</span>
+<span class="c1"># Returns:</span>
+<span class="c1"># - type:    type identifier aliased as 'type'</span>
+<span class="c1"># - name:    name aliased as 'name'</span>
+<span class="c1"># - content: source code of identifier aliased as 'content'</span>
+<span class="s">Q_REQUEST_COMPONENTS_FOR_SEARCH</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">SELECT name, type, content FROM dqgui_repo WHERE type IN __TYPE_TUPEL__ AND project IN (0, :project);</span>
+
+<span class="c1"># Create a dummy project with the ID 0 to store global checks with.</span>
+<span class="s">Q_PROJECT_CREATE_GLOBAL_DUMMY_ENTRY</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">INSERT INTO dqgui_index(project, name, guid, environments) VALUES (0, 'GLOBAL_DUMMY', '', '{}');</span>
+  
+<span class="c1"># List all projects excluding the dummy project with the id 0</span>
+<span class="c1">#</span>
+<span class="c1"># Returns:</span>
+<span class="c1"># - project: identifier of the project</span>
+<span class="c1"># - name   : name of project</span>
+<span class="c1"># - guid   : guid of project</span>
+<span class="s">Q_PROJECT_LIST_ALL</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">SELECT project, name, guid FROM dqgui_index WHERE project &gt; 0;</span>
+
+<span class="c1"># Create a new project.</span>
+<span class="c1"># It is possible to use :project here if the database does not have an auto increment feature.</span>
+<span class="c1"># In this postgres sample DEFAULT is used since our schema is backed by a sequence</span>
+<span class="s">Q_PROJECT_CREATE</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">INSERT INTO dqgui_index(project, name, guid, environments) VALUES (DEFAULT, :project_name, :guid, :environments::json);</span>
+
+<span class="c1"># Delete all repo entries for a given project id</span>
+<span class="s">Q_PROJECT_DELETE_REPO</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">DELETE FROM dqgui_repo WHERE project = :project;</span>
+
+<span class="c1"># Delete all results for a given project id</span>
+<span class="s">Q_PROJECT_DELETE_RESULTS</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">DELETE FROM dqgui_results WHERE project = :project;</span>
+
+<span class="c1"># Delete the project entry itself</span>
+<span class="s">Q_PROJECT_DELETE_PROJECT_ENTRY</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">DELETE FROM dqgui_index WHERE project = :project;</span>
+
+<span class="c1">#Fetch database environments for project</span>
+<span class="c1">#</span>
+<span class="c1"># Returns:</span>
+<span class="c1"># - environments : serialized database environment as json</span>
+<span class="s">Q_PROJECT_FETCH_DATABASE_ENVIRONMENTS</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">SELECT environments FROM dqgui_index WHERE project = :project;</span>
+
+<span class="c1"># Updated database environments for a project</span>
+<span class="s">Q_PROJECT_UPDATE_DATABASE_ENVIRONMENTS</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">UPDATE dqgui_index SET environments = :environments::json WHERE project = :project;</span>
+  
+<span class="c1"># Check if a project exists by returning the count of matching rows.</span>
+<span class="c1">#</span>
+<span class="c1"># Returns:</span>
+<span class="c1"># - matches: amount of matches (INTEGER) aliased as 'matches'</span>
+<span class="s">Q_PROJECT_EXISTS</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">SELECT COUNT(project) AS matches FROM dqgui_index WHERE project = :project;</span>
+  
+<span class="c1"># Read feedback for hash</span>
+<span class="c1">#</span>
+<span class="c1"># Returns:</span>
+<span class="c1"># iqm4hd_feedback : serialized feedback as json</span>
+<span class="s">Q_FEEDBACK_READ</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">SELECT iqm4hd_feedback FROM dqgui_results WHERE hash = :hash AND project = :project;</span>
+  
+<span class="c1"># Write feedback for hash</span>
+<span class="s">Q_FEEDBACK_WRITE</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">UPDATE dqgui_results SET iqm4hd_feedback = :iqm4hd_feedback::json WHERE hash = :hash AND project = :project;</span>
+  
+<span class="s">Q_PROMOTION_TO_GLOBAL</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">UPDATE dqgui_repo SET project = 0 WHERE project = :project AND type = :type AND name = :name;</span>
+  
+<span class="s">Q_DEMOTION_TO_LOCAL</span><span class="pi">:</span> <span class="pi">&gt;</span>
+  <span class="no">UPDATE dqgui_repo SET project = :project WHERE project = 0 AND type = :type AND name = :name;</span>
+</code></pre>
+</div>
+
+<h3 id="result">Result</h3>
+
+<p>After implementing all of this we should have a working Postgres engine implementation with repository support.</p>
+
+<p>In case you want to output a repository related query you can set the log level in <code class="highlighter-rouge">dqgui-core/src/main/resources/tinylog.properties</code> to debug.</p>
+
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=footer class=span12>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>Building DQGUI - DQGUI Documentation</title>
+        <meta name="description" content="User and developer documentation">
+
+        <link href="css/bootstrap-2.3.2-combined.no-icons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/syntax.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class=row-fluid id=header>
+                <div id=site-title class=span8>
+                    <h4><a class=brand href="index.html">DQGUI Documentation</a>
+    <small>User and developer documentation</small>
+</h4>
+
+
+                </div>
+                <div id=search class=span4>
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=navigation class=span2>
+                    <ul class="nav nav-list">
+  <li class="nav-header"><a href="javaDocs/index.html">DQGUI Javadoc</a></li>
+    
+
+    
+      
+      
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Documentation</li>
+            
+          
+
+          
+          
+            <li class="active"><a href="building.html">Building DQGUI</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="dba.html">Database Abstraction Layer</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="remote-execution.html">Remote Execution Server</a></li>
+          
+          
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Tutorial</li>
+            
+          
+
+          
+          
+            <li><a href="tut-mongo.html">Engine Tutorial: Mongo</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="tut-pg.html">Engine Tutorial: Postgres</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Reference</li>
+            
+          
+
+          
+          
+            <li><a href="editor.html">Code Editor</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="databases.html">Database Management</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="execution.html">Execution and Reports</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="other.html">Other Features</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="projects.html">Projects</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+</ul>
+
+                </div>
+
+                <div id=content class=span10>
+                                    <section id="search-results" style="display: none;">
+                    <p>Search results</p>
+                    <div class="entries"></div>
+                </section>
+
+
+                    <h1 class="page-header">Building DQGUI
+                        
+                    </h1>
+
+                    <ol>
+  <li><a href="#requirements">Requirements</a></li>
+  <li><a href="#core-modules">Core Modules</a></li>
+  <li><a href="#engine-implementations">Engine Implementations</a></li>
+  <li><a href="#dqgui-and-iqm4hd">DQGUI and IQM4HD</a></li>
+</ol>
+
+
+<hr></hr>
+
+<p>DQGUI is a modular Gradle project that includes a gradle wrapper to guarantee that the correct Gradle version is used.</p>
+
+<p>To build the entire project and all its sub modules simply run <code class="highlighter-rouge">gradle build</code> in the root project.</p>
+
+<p>The build process will fetch all required dependencies, generate documentation, build the sub modules, run tests and a static analysis and output the two compiled artifacts into the root projects <code class="highlighter-rouge">bin/</code> folder.</p>
+
+<h3 id="requirements">Requirements</h3>
+
+<p>Due to the project having a Java 8 requirement, JavaFX is not bundled with the finished artifacts as it is the case with JavaFX &gt;= Java 11 builds.</p>
+
+<p>There is a hard dependency on JavaFX being supplied by the JDK. This is currently the case for the Oracle Java 8 JDK. OpenJDK 8 allows to install the openjfx module on Linux that also provides the JavaFX runtime.</p>
+
+<p>This however does not work on windows. To build this project a Java JDK 8 that supplies JavaFX is required.</p>
+
+<p>If you want to upgrade this project to Java 11+ you’ll need to add the <a href="https://openjfx.io/">OpenJFX dependencies</a> to the build script, this will remove the hard dependency on a JDK that supplies JavaFX.</p>
+
+<p>This is due to Oracles change in policy to not include JavaFX within the JDK anymore.</p>
+
+<h3 id="core-modules">Core Modules</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Module Name</th>
+      <th style="text-align: center">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dqgui-framework</td>
+      <td style="text-align: center">Custom GUI framework to abstract JavaFX boilerplate</td>
+    </tr>
+    <tr>
+      <td>dqgui-execution</td>
+      <td style="text-align: center">Shared execution relevant module, contains database abstraction layer, remote data classes and execution metadata classes</td>
+    </tr>
+    <tr>
+      <td>dqgui-database-support</td>
+      <td style="text-align: center">Contains database support that is not relevant to execution i.e. repository and GUI support</td>
+    </tr>
+    <tr>
+      <td>dqgui-core</td>
+      <td style="text-align: center">The actual DQGUI</td>
+    </tr>
+    <tr>
+      <td>dqgui-remote</td>
+      <td style="text-align: center">The DQGUI remote execution server</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="engine-implementations">Engine Implementations</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Module Name</th>
+      <th style="text-align: center">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>database-postgres</td>
+      <td style="text-align: center">Postgres with repository support</td>
+    </tr>
+    <tr>
+      <td>database-mongo</td>
+      <td style="text-align: center">MongoDB without repository support</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="dqgui-and-iqm4hd">DQGUI and IQM4HD</h3>
+
+<p>Currently IQM4HD is supplied via a flat dir repository and included in the fat jar build.</p>
+
+<p>To update the version of IQM4HD used you will have to replace the iqm4hd-single-dqgui.jar within the <code class="highlighter-rouge">libs</code> folder in the root project.</p>
+
+<p>DQGUI depends on the following classes from the iqm4hd-single project.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>de.mvise.iqm4hd.client.RServiceRservImpl
+de.mvise.iqm4hd.client.RConn
+de.mvise.iqm4hd.client.DocumentSetIterator
+de.mvise.iqm4hd.client.DatabaseEntryImpl
+de.mvise.iqm4hd.client.ResultSetIterator
+
+All ANTLR auto generated parser classes and the ANTLR dependency.
+</code></pre>
+</div>
+
+<p>If you build the iqm4hd-single-dqgui.jar the following dependencies should be changed from <code class="highlighter-rouge">compile</code> to <code class="highlighter-rouge">implementation</code> to prevent them from popping up in the dqgui jar.</p>
+
+<div class="language-gradle highlighter-rouge"><pre class="highlight"><code><span class="c1">// DQGUI uses tinylog2 as logging framework and thus includes a tinylog2-slf4j binding. The slf4j implementation will cause ambiguities with slf4j binding initialization on startup.</span>
+<span class="n">compile</span> <span class="nl">group:</span> <span class="s1">'org.slf4j'</span><span class="o">,</span> <span class="nl">name:</span> <span class="s1">'slf4j-simple'</span><span class="o">,</span> <span class="nl">version:</span> <span class="s1">'1.6.1'</span>
+
+<span class="c1">// Included in engine implementations already</span>
+<span class="n">compile</span> <span class="nl">group:</span> <span class="s1">'org.mongodb'</span><span class="o">,</span> <span class="nl">name:</span> <span class="s1">'mongo-java-driver'</span><span class="o">,</span> <span class="nl">version:</span> <span class="s1">'3.8.2'</span>
+<span class="n">compile</span> <span class="nl">group:</span> <span class="s1">'org.postgresql'</span><span class="o">,</span> <span class="nl">name:</span> <span class="s1">'postgresql'</span><span class="o">,</span> <span class="nl">version:</span> <span class="s1">'42.2.5'</span>
+
+<span class="c1">// Bloat, not required by the iqm4hd-single source we received</span>
+<span class="n">compile</span> <span class="nl">group:</span> <span class="s1">'org.springframework.data'</span><span class="o">,</span> <span class="nl">name:</span> <span class="s1">'spring-data-mongodb'</span><span class="o">,</span> <span class="nl">version:</span> <span class="s1">'2.1.0.RELEASE'</span>
+</code></pre>
+</div>
+
+<p>You can then change the main jar task to:</p>
+
+<div class="language-gradle highlighter-rouge"><pre class="highlight"><code><span class="n">jar</span> <span class="o">{</span>
+    <span class="n">manifest</span> <span class="o">{</span>
+        <span class="n">attributes</span> <span class="s2">"Main-Class"</span><span class="o">:</span> <span class="s2">"de.mvise.iqm4hd.client.ClientMain"</span>
+    <span class="o">}</span>
+ 
+    <span class="n">from</span> <span class="o">{</span>
+        <span class="n">configurations</span><span class="o">.</span><span class="na">runtimeClasspath</span><span class="o">.</span><span class="na">collect</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">isDirectory</span><span class="o">()</span> <span class="o">?</span> <span class="n">it</span> <span class="o">:</span> <span class="n">zipTree</span><span class="o">(</span><span class="n">it</span><span class="o">)</span> <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>This will guarantee that the fat jar from the original project is still built with all dependencies.</p>
+
+<p>Creating a second jar task defined as:</p>
+
+<div class="language-gradle highlighter-rouge"><pre class="highlight"><code><span class="n">task</span> <span class="nf">dqguiJar</span><span class="o">(</span><span class="nl">type:</span> <span class="n">Jar</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">appendix</span> <span class="o">=</span> <span class="s2">"dqgui"</span>
+	
+	<span class="n">from</span> <span class="k">sourceSets</span><span class="o">.</span><span class="na">main</span><span class="o">.</span><span class="na">output</span>
+	
+	<span class="n">from</span> <span class="o">{</span>
+		<span class="n">configurations</span><span class="o">.</span><span class="na">compile</span><span class="o">.</span><span class="na">collect</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">isDirectory</span><span class="o">()</span> <span class="o">?</span> <span class="n">it</span> <span class="o">:</span> <span class="n">zipTree</span><span class="o">(</span><span class="n">it</span><span class="o">)</span> <span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">jar</span><span class="o">.</span><span class="na">dependsOn</span> <span class="n">dqguiJar</span>
+</code></pre>
+</div>
+
+<p>Will create the iqm4hd-single-dqgui.jar that should be used with the dqgui build. It is stripped of all <code class="highlighter-rouge">implementation</code> dependencies.</p>
+
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=footer class=span12>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

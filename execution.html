@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>Execution and Reports - DQGUI Documentation</title>
+        <meta name="description" content="User and developer documentation">
+
+        <link href="css/bootstrap-2.3.2-combined.no-icons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/syntax.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class=row-fluid id=header>
+                <div id=site-title class=span8>
+                    <h4><a class=brand href="index.html">DQGUI Documentation</a>
+    <small>User and developer documentation</small>
+</h4>
+
+
+                </div>
+                <div id=search class=span4>
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=navigation class=span2>
+                    <ul class="nav nav-list">
+  <li class="nav-header"><a href="javaDocs/index.html">DQGUI Javadoc</a></li>
+    
+
+    
+      
+      
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Documentation</li>
+            
+          
+
+          
+          
+            <li><a href="building.html">Building DQGUI</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="dba.html">Database Abstraction Layer</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="remote-execution.html">Remote Execution Server</a></li>
+          
+          
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Tutorial</li>
+            
+          
+
+          
+          
+            <li><a href="tut-mongo.html">Engine Tutorial: Mongo</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="tut-pg.html">Engine Tutorial: Postgres</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Reference</li>
+            
+          
+
+          
+          
+            <li><a href="editor.html">Code Editor</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="databases.html">Database Management</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li class="active"><a href="execution.html">Execution and Reports</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="other.html">Other Features</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="projects.html">Projects</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+</ul>
+
+                </div>
+
+                <div id=content class=span10>
+                                    <section id="search-results" style="display: none;">
+                    <p>Search results</p>
+                    <div class="entries"></div>
+                </section>
+
+
+                    <h1 class="page-header">Execution and Reports
+                        
+                    </h1>
+
+                    <ol>
+  <li><a href="#running-an-action">Running an Action</a>
+    <ol>
+      <li><a href="#remote-execution">Remote Execution</a></li>
+    </ol>
+  </li>
+  <li><a href="#live-logging">Live Logging</a></li>
+  <li><a href="#managing-reports">Managing Reports</a>
+    <ol>
+      <li><a href="#viewing">Viewing</a></li>
+      <li><a href="#removal">Removal</a></li>
+      <li><a href="#feedback">Feedback</a></li>
+    </ol>
+  </li>
+</ol>
+
+
+<hr></hr>
+
+<h3 id="running-an-action">Running an Action</h3>
+
+<p>To run an Action you can either select it from the third combobox with the gear symbol in the main view or select it by right clicking on an Action and using the <code class="highlighter-rouge">Select as action</code> context menu entry.</p>
+
+<p>To run the action locally be sure to have <code class="highlighter-rouge">LOCAL</code> selected in the first combobox.</p>
+
+<h4 id="remote-execution">Remote Execution</h4>
+
+<p>You can configure a remote execution server by opening the Remote Execution Configuration via <code class="highlighter-rouge">DQGUI -&gt; DQGUI Remote</code>.</p>
+
+<p>To add a server fill out the host and key fields and hit connect. If the connection succeeded a notification will be shown in the top right corner and the status will changed to connect to event socket.</p>
+
+<p><img src="connected.PNG" style="display: block;margin: 1em auto 1.2em auto;" width="500px" /></p>
+
+<p>As long as you’re connected to the event socket you can be 101% sure that remote execution will work, DQGUI will also automatically collect the finished results from the server and notify you about them.</p>
+
+<p>If the text status says <code class="highlighter-rouge">Disconnected from event socket. No auto collect.</code> that means that the server might be down or might be running. Finished jobs would not be automatically collected.</p>
+
+<p>Once you connected to a server DQGUI will attempt to automatically connect on every startup. A notification will inform if the attempt succeeded or failed.</p>
+
+<p>Should the event socket loose connection you will also receive a notification.</p>
+
+<p>Currently running or uncollected jobs are listed in the table. They’re automatically refreshed if either the socket receives a notification or a job has been sent to the server.</p>
+
+<p>Via the context menu you can view the current log of the job (only if it is still running).</p>
+
+<ul>
+  <li>the download icon will collect all jobs that match the currently loaded project</li>
+  <li>the refresh icon will refresh the job list</li>
+  <li>the <code class="highlighter-rouge">X</code> will disconnect form the event socket</li>
+  <li>you can reconnect by clicking <code class="highlighter-rouge">Connect to server</code></li>
+</ul>
+
+<p>You can than run a remote job by changing the value of the first combobox in the main view to <code class="highlighter-rouge">REMOTE</code>.</p>
+
+<p><img src="remotewithjobs.PNG" style="display: block;margin: 1em auto 1.2em auto;" width="500px" /></p>
+
+<p>Jobs that have not been collected yet will display the <code class="highlighter-rouge">WAIT_FOR_COLLECT</code> state.</p>
+
+<p>Collecting jobs by hand is possible via the download button. Only jobs that belong to the loaded project will be collected.</p>
+
+<p>If DQGUI cannot determine the project <code class="highlighter-rouge">UNKNOWN</code> will be displayed as origin.</p>
+
+<h3 id="live-logging">Live Logging</h3>
+
+<p>The log of a currently running local job can be accessed by double clicking on the job within the <code class="highlighter-rouge">Active</code> category of the <code class="highlighter-rouge">Reports</code> view in the main window.</p>
+
+<h3 id="managing-reports">Managing Reports</h3>
+
+<p>To clear reports that failed to complete due to an exception you can right click on the <code class="highlighter-rouge">Finished</code> category of the <code class="highlighter-rouge">Reports</code> view and initiate a pruning of failed tasks via the context menu.</p>
+
+<h4 id="viewing">Viewing</h4>
+
+<p>Reports can be viewed via the <code class="highlighter-rouge">DQGUI -&gt; Explore Reports</code> view.</p>
+
+<p><img src="reports.PNG" style="display: block;margin: 1em auto 1.2em auto;" width="600px" /></p>
+
+<p>Only reports that have successfully completed are being displayed here. It is possible to search and filter them.</p>
+
+<h4 id="removal">Removal</h4>
+
+<p>The report listing supports multi-selection. To remove one or more reports simply select them and delete them by either the delete key or via the right click context menu.</p>
+
+<h4 id="feedback">Feedback</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Icon</th>
+      <th style="text-align: center">Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="undefined.png" alt="" /></td>
+      <td style="text-align: center">No feedback evaluated yet</td>
+    </tr>
+    <tr>
+      <td><img src="ISSUES.png" alt="" /></td>
+      <td style="text-align: center">Identifier marked as false positive</td>
+    </tr>
+    <tr>
+      <td><img src="PASS.png" alt="" /></td>
+      <td style="text-align: center">Identifier marked as correctly evaluated</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Feedback can be viewed and edited either via the <code class="highlighter-rouge">Issues</code> section in the <code class="highlighter-rouge">Report</code> tab or via the <code class="highlighter-rouge">Identifier Overview &amp; Feedback</code> tab.</p>
+
+<p>The <code class="highlighter-rouge">Identifier Overview &amp; Feedback</code> lists all data mapped by the identifier.</p>
+
+<p>Within the <code class="highlighter-rouge">Report</code> tab it is possible to change the feedback status by using the right-click context menu within any row of the <code class="highlighter-rouge">Data</code> column.</p>
+
+<p>The <code class="highlighter-rouge">Identifier Overview &amp; Feedback</code> allows to change feedback status via the right-click context menu by clicking on any row entry.</p>
+
+<p>It is also possible to copy the <code class="highlighter-rouge">Identifer</code> and <code class="highlighter-rouge">Value</code> entries by using the right-click context menu on their respective fields.</p>
+
+<p>Within the <code class="highlighter-rouge">Identifier Overview &amp; Feedback</code> a <code class="highlighter-rouge">Copy data as JSON</code> context menu item allows to copy the entire row as JSON formatted string.</p>
+
+<p><img src="feedback.png" alt="" /></p>
+
+<p>The column names that match those of the <code class="highlighter-rouge">IDENTIFIER</code> in the <code class="highlighter-rouge">Identifier Overview &amp; Feedback</code> will be colored green and placed the left most after the feedback status column (not visible in the screenshot, as from an older version).</p>
+
+<p><code class="highlighter-rouge">value</code> roles from the action are also parsed and the corresponding column names are marked red.</p>
+
+<p><img src="marked_column.PNG" style="display: block;margin: 1em auto 1.2em auto;" width="600px" /></p>
+
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=footer class=span12>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

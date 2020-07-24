@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>Database Abstraction Layer - DQGUI Documentation</title>
+        <meta name="description" content="User and developer documentation">
+
+        <link href="css/bootstrap-2.3.2-combined.no-icons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/syntax.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class=row-fluid id=header>
+                <div id=site-title class=span8>
+                    <h4><a class=brand href="index.html">DQGUI Documentation</a>
+    <small>User and developer documentation</small>
+</h4>
+
+
+                </div>
+                <div id=search class=span4>
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=navigation class=span2>
+                    <ul class="nav nav-list">
+  <li class="nav-header"><a href="javaDocs/index.html">DQGUI Javadoc</a></li>
+    
+
+    
+      
+      
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Documentation</li>
+            
+          
+
+          
+          
+            <li><a href="building.html">Building DQGUI</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li class="active"><a href="dba.html">Database Abstraction Layer</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="remote-execution.html">Remote Execution Server</a></li>
+          
+          
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Tutorial</li>
+            
+          
+
+          
+          
+            <li><a href="tut-mongo.html">Engine Tutorial: Mongo</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="tut-pg.html">Engine Tutorial: Postgres</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Reference</li>
+            
+          
+
+          
+          
+            <li><a href="editor.html">Code Editor</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="databases.html">Database Management</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="execution.html">Execution and Reports</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="other.html">Other Features</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="projects.html">Projects</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+</ul>
+
+                </div>
+
+                <div id=content class=span10>
+                                    <section id="search-results" style="display: none;">
+                    <p>Search results</p>
+                    <div class="entries"></div>
+                </section>
+
+
+                    <h1 class="page-header">Database Abstraction Layer
+                        
+                    </h1>
+
+                    <ol>
+  <li><a href="#engine-manager">Engine Manager</a></li>
+  <li><a href="#databaseconnection-and-the-serialization-trap">DatabaseConnection and the Serialization Trap</a></li>
+  <li><a href="#implementing-an-engine">Implementing an Engine</a></li>
+  <li><a href="#adding-an-engine-to-the-dqgui-build-process">Adding an Engine to the DQGUI Build Process</a></li>
+  <li><a href="#engine-template">Engine Template</a></li>
+  <li><a href="#support-files">Support Files</a>
+    <ol>
+      <li><a href="#what-are-the-yaml-files-for">What are the YAML files for?</a>
+        <ol>
+          <li><a href="#repository-validation">Repository Validation</a></li>
+          <li><a href="#auto-increment-support">Auto Increment Support</a></li>
+        </ol>
+      </li>
+      <li><a href="#what-are-the-gui-files-for">What are the GUI files for?</a></li>
+    </ol>
+  </li>
+  <li><a href="#gui-configurations">GUI Configurations</a></li>
+</ol>
+
+
+<hr></hr>
+
+<p>The database abstraction layer allows DQGUI to work with several different database engines.</p>
+
+<p>It is used by IQM4HD to connect to the database that are managed by DQGUI and allows developers to support previously unsupported engines by supplying their own engine implementations.</p>
+
+<p>The API documentation of the mainly relevant <code class="highlighter-rouge">de.hshannover.dqgui.execution.database.api</code> package can be found <a href="javaDocs/de/hshannover/dqgui/execution/database/api/package-summary.html">here</a>.</p>
+
+<h3 id="engine-manager">Engine Manager</h3>
+
+<p>The EngineManager must be initialized by the using software via loading the class from the classpath via <code class="highlighter-rouge">Class.forName("de.hshannover.dqgui.execution.database.api.EngineManager");</code>.</p>
+
+<p>This will trigger a static initializer that scans the classpath for engine implementations to register with itself.</p>
+
+<p>In case an engine fails to load or two engines share the same identifier an exception indicating the error will be thrown.</p>
+
+<h3 id="databaseconnection-and-the-serialization-trap">DatabaseConnection and the Serialization Trap</h3>
+
+<p>In case a DatabaseConnection is serialized and deserialized on another system a <a href="javaDocs/de/hshannover/dqgui/execution/database/api/DatabaseConnection.html#engineIdentifierIsRegistered--">deserialization post processing hook</a> must be run to ensure that the backing EngineManager has an engine for the connection’s identifier registered.</p>
+
+<p>A <code class="highlighter-rouge">false</code> return will indicated that no engine with a matching identifier has been found within the EngineManager. It is than the applications job to notify the user that the connection cannot be used as no backing engine exists on the system.</p>
+
+<p>A <code class="highlighter-rouge">true</code> return will internally set the backing engine within the DatabaseConnection which allows it to be used within the database abstraction layer.</p>
+
+<p>A disaster would be the same identifiers on different machines backed by different engine implementations. This can’t happen with <code class="highlighter-rouge">dqgui-core</code> and <code class="highlighter-rouge">dqgui-remote</code> as they both include the same database engine implementations.</p>
+
+<h3 id="implementing-an-engine">Implementing an Engine</h3>
+
+<p>An engine can be implemented by extending the <a href="javaDocs/de/hshannover/dqgui/execution/database/api/DatabaseEngine.html">DatabaseEngine</a> base class and placing the implementation in the <code class="highlighter-rouge">de.hshannover.dqgui.engine</code> package.</p>
+
+<p>The engine manager will only scan <code class="highlighter-rouge">de.hshannover.dqgui.engine</code> and sub-packages for valid <code class="highlighter-rouge">DatabaseEngine</code> subclasses. If your implementation is not within this package, it will never be found and registered.</p>
+
+<p>A small overview over a sample implementation is given here, it shall be noted that the tutorials give a more detailed overview and real world examples.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleEngine</span> <span class="kd">extends</span> <span class="n">DatabaseEngine</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="nf">SampleEngine</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="c1">// Internal initialization</span>
+        <span class="kd">super</span><span class="o">();</span>                        
+
+        <span class="c1">// REQUIRED</span>
+
+        <span class="c1">// set Identifier</span>
+        <span class="c1">// identifiers are all converted to upper case so sample, Sample and SaMplE =&gt; SAMPLE</span>
+        <span class="n">registerIdentifier</span><span class="o">(</span><span class="s">"sample"</span><span class="o">);</span> 
+        <span class="c1">// set language string for iqm4hd database service</span>
+        <span class="n">registerLanguage</span><span class="o">(</span><span class="s">"sql"</span><span class="o">);</span> 
+         <span class="c1">// gui support configuration, more later in this article</span>
+        <span class="n">registerGuiSupport</span><span class="o">(...);</span>       
+
+        <span class="c1">// OPTIONAL</span>
+
+        <span class="c1">// set default port to be displayed in the gui</span>
+        <span class="n">registerPort</span><span class="o">(</span><span class="mi">1234</span><span class="o">);</span>             
+        <span class="c1">// if have a repository implementation and the backing engine is relational and supports JDBC</span>
+        <span class="n">registerRepositorySupport</span><span class="o">(...);</span> 
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">loadDatabaseDriver</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">ClassNotFoundException</span> <span class="o">{</span>
+        <span class="c1">// In case the driver need to be loaded like it is the case with some JDBC drivers</span>
+        <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"org.my.driver.JDBCImpl"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">DatabaseFetcher</span> <span class="nf">createFetcher</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// JDBC supported connections can use the JdbcFetcher() implementation</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">MyFetcher</span><span class="o">(</span><span class="n">connection</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">name</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// How the engine is treated in the UI</span>
+        <span class="k">return</span> <span class="s">"Sample Engine"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isRelational</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span> <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">allowUseForRepository</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span> <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">allowUseForIqm4hd</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span> <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">supportsJdbc</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span> <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">createDataSourceUrl</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// https://docs.oracle.com/javase/tutorial/jdbc/basics/connecting.html</span>
+        <span class="c1">// Only required if it is a JDBC driver</span>
+        <span class="c1">// Otherwise null can be returned </span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">DatabaseTestResult</span> <span class="nf">test</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// If a JDBC driver exists return DatabaseTests.ofJDBC(connection); can be used</span>
+        <span class="c1">// Otherwise you have to implement your own test</span>
+        <span class="c1">// or redirect to reportUnsupported to let the gui know you dont support tests</span>
+        <span class="k">return</span> <span class="n">DatabaseTests</span><span class="o">.</span><span class="na">reportUnsupported</span><span class="o">(</span><span class="n">connection</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">Repository</span><span class="o">&lt;?&gt;</span> <span class="n">createRepositoryForConnection</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// only required if you plan on supporting DQGUI repository functionality with this engine</span>
+        <span class="c1">// for JDBC supported engines you can return JdbcRepository(connection); </span>
+        <span class="c1">// as long as you registered a valid repository support</span>
+        <span class="c1">// else you need to implement it yourself </span>
+        <span class="c1">// or return null if you don't support a repository functionality</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="adding-an-engine-to-the-dqgui-build-process">Adding an Engine to the DQGUI Build Process</h3>
+
+<p>Ideally an engine implementation should get its own sub-project. By convention engine sub-projects are named after this schema: <code class="highlighter-rouge">database-&lt;IDENTIFIER&gt;</code>.</p>
+
+<p>This prevents creating engines with duplicate identifiers. The DQGUI build process automatically detects sub-projects that begin with <code class="highlighter-rouge">database-</code> and adds them as dependencies to the <code class="highlighter-rouge">dqgui-core</code> and <code class="highlighter-rouge">dqgui-remote</code> projects.</p>
+
+<p>You can than register the new engine sub-project with the build script by adding <code class="highlighter-rouge">include 'database-&lt;IDENTIFIER&gt;</code> to the root projects <code class="highlighter-rouge">settings.gradle</code> file.</p>
+
+<p>If we’d like to implement an engine with the identifier <code class="highlighter-rouge">postgres</code> we would name the sub-project <code class="highlighter-rouge">database-postgres</code>.</p>
+
+<h3 id="engine-template">Engine Template</h3>
+
+<p>A project template exists (databaseSubprojectSkeleton.zip) so you do not have to create the entire sub-project from scratch.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>├── build.gradle
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── de
+    │   │       └── hshannover
+    │   │           └── dqgui
+    │   │               └── engine
+    │   │                   ├── identifier*
+    │   │                   │   └── package-info.java
+    │   │                   └── identifier_hereEngine.java*
+    │   └── resources
+    │       └── engine
+    │           └── identifier*
+    └── test
+        ├── java
+        └── resources
+</code></pre>
+</div>
+
+<p>After unpacking and renaming it correctly you will also need to rename/refactor the <code class="highlighter-rouge">*</code> marked files and folders above.</p>
+
+<p>If our engine was named <code class="highlighter-rouge">postgres</code> we would end up with these changes:
+- … resources/engine/postgres =&gt; to store static assets required by the engine
+- de.hshannover.dqgui.engine.PostgresEngine.java =&gt; Engine implementation
+- de.hshannover.dqgui.engine.postgres =&gt; Package to store support classes</p>
+
+<p>The <code class="highlighter-rouge">build.gradle</code> of the sub-project has the spotbugs static analysis enabled for the main source set and will fail the build if a static analysis rule has been violated.</p>
+
+<p>Spotbugs itself is not perfect and false positives happen. If you believe the spotted rule violation is not a bug but a false positive you can either set <code class="highlighter-rouge">ignoreFailures = true</code> or annotate the code section with the <code class="highlighter-rouge">@SuppressFBWarnings</code> annotation.</p>
+
+<p>Areas where spotbugs frequently fails:
+- everything that has to do with reflective setting of fields (will throw null value access warnings)
+- JDBC ResultSet not closed while the creating Statement is closed (does not understand that closing a Statement cascades and closes everything related to the statement)</p>
+
+<h3 id="support-files">Support Files</h3>
+
+<p>Support files (databaseSupportFiles.zip) exist so you do not have to create a GUI template or figure out the <a href="javaDocs/de/hshannover/dqgui/execution/database/api/YamlConfigurableRelationalRepositorySupport.html">YamlConfigurableRelationalRepositorySupport</a> configuration by yourself. More information about YamlConfigurableRelationalRepositorySupport can be found in the <a href="tut-pg.html#extending-yamlconfigurablerelationalrepositorysupport">Postgres tutorial</a> which also covers how to implement database schema validation.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>├── gui
+│   ├── TEMPLATE.fxml
+│   ├── fonts
+│   │   └── roboto
+│   │       ├── LICENSE.txt
+│   │       └── Roboto-Regular.ttf
+│   ├── iconList.png
+│   ├── iconWizard.png
+│   └── style.css
+└── yamlRelationalRepoConfig
+    ├── postgres_queries.yml
+    └── postgres_schema.yml
+</code></pre>
+</div>
+
+<h4 id="what-are-the-yaml-files-for">What are the YAML files for?</h4>
+
+<p>If you only plan on implementing the engine to be used by IQM4HD you can skip this step.</p>
+
+<p>The YAML configuration files are used if you plan on supporting repositories and projects with the implemented database engine i.e. DQGUI can use this engine to store source code, projects and results in any database of this engine type.</p>
+
+<p><code class="highlighter-rouge">YamlConfigurableRelationalRepositorySupport</code> only works with database engines that are:
+- relational
+- support JDBC</p>
+
+<p>It implements <a href="javaDocs/de/hshannover/dqgui/execution/database/api/RelationalRepositorySupport.html">RelationalRepositorySupport</a> and thus allows you to use it in combination with a <a href="javaDocs/de/hshannover/dqgui/dbsupport/JdbcRepository.html">JdbcRepository</a>. Using the YAML configuration is covered in the <a href="tut-pg.html">postgres engine tutorial</a>.</p>
+
+<p>In the case that you want to add repository support for a non-relational non-JDBC supported engine <a href="https://www.urbandictionary.com/define.php?term=you%20dun%20goofed">you dun goofed</a> and are forced to implement the <a href="javaDocs/de/hshannover/dqgui/execution/database/api/Repository.html">Repository</a> and <a href="javaDocs/de/hshannover/dqgui/execution/DSLService.html">DSLService</a> interfaces yourself.</p>
+
+<p>Both files contain the postgres implementation and are heavily commented, if you plan to port them to another engine you would only have to change the schema (postgres schema uses json type, maybe the engine does not support it and has to use a TEXT type) and the queries (postgres queries have a ::json cast in them to work with the prepared statements, maybe your engine has a special SQL dialect).</p>
+
+<h5 id="repository-validation">Repository Validation</h5>
+
+<p>It is possible to validate the schema for the detected tables by implementing the <a href="javaDocs/de/hshannover/dqgui/execution/database/api/RelationalRepositorySupport.html#validateRepository-java.util.Map-java.util.Map-java.util.Map-">validateRepository()</a> method from the base class <a href="javaDocs/de/hshannover/dqgui/execution/database/api/RelationalRepositorySupport.html">RelationalRepositorySupport</a>.</p>
+
+<p>In case you do not want to implement a validation for the schemas, you can return null when overriding the method in your concrete class.</p>
+
+<p>The validation works by comparing the metadata retrieved by the JDBC driver with a hard coded and known valid data set.</p>
+
+<p>The <code class="highlighter-rouge">Map&lt;String, Integer&gt;</code> test data is generated by the <a href="javaDocs/de/hshannover/dqgui/dbsupport/JdbcRepository.html">JdbcRepository</a> via the JDBC metadata within this internal method and then passed to <code class="highlighter-rouge">validateRepository()</code>.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">generateValidation</span><span class="o">(</span><span class="n">String</span> <span class="n">table</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SQLException</span> <span class="o">{</span>
+        <span class="kd">synchronized</span> <span class="o">(</span><span class="n">handle</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">(</span><span class="n">NamedParameterStatement</span> <span class="n">s</span> <span class="o">=</span> <span class="n">support</span><span class="o">.</span><span class="na">queryAllColumnsNoResults</span><span class="o">(</span><span class="n">table</span><span class="o">,</span> <span class="n">handle</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+                <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">validation</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getMetaData</span><span class="o">().</span><span class="na">getColumnCount</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span>
+                    <span class="n">validation</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getMetaData</span><span class="o">().</span><span class="na">getColumnName</span><span class="o">(</span><span class="n">i</span><span class="o">),</span> <span class="n">rs</span><span class="o">.</span><span class="na">getMetaData</span><span class="o">().</span><span class="na">getColumnType</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+                <span class="k">return</span> <span class="n">validation</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+                <span class="n">handle</span><span class="o">.</span><span class="na">rollback</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>If you create a new engine you can retrieve the test data by printing the output of the three maps within your <code class="highlighter-rouge">validateRepository()</code> method and then hard code it in your concrete class. The <a href="Postgres engine tutorial">tut-pg.html</a> has a reference implementation of a repository validation.</p>
+
+<h5 id="auto-increment-support">Auto Increment Support</h5>
+
+<p>The <a href="tut-pg.html">Postgres engine tutorial</a> makes use of the <code class="highlighter-rouge">SERIAL</code> feature that postgres offers.</p>
+
+<p>Not all database engines might offer such a comfortable auto increment feature and by default <code class="highlighter-rouge">YamlConfigurableRelationalRepositorySupport</code> will expect an auto incrementing key.</p>
+
+<p>In case of the engine not supporting any type of auto incrementing, the query configuration key:value pair <code class="highlighter-rouge">Q_PROJECT_CREATE</code> will allow a <code class="highlighter-rouge">:project</code> parameter, although you would have to override the <code class="highlighter-rouge">projectCreate()</code> method of the <code class="highlighter-rouge">YamlConfigurableRelationalRepositorySupport</code> with something that queries the database series first to retrieve an unused id and then bakes the <code class="highlighter-rouge">:project</code> parameter into the query.</p>
+
+<p>A simple example how that could look is here. Important: we return a <a href="javaDocs/de/hshannover/dqgui/execution/database/api/RelationalRepositorySupport.KeyHandle.html">KeyHandle</a> via the static <code class="highlighter-rouge">ofSelfSupplied</code> factory method and include our generated key.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="nd">@Override</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"resource"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">KeyHandle</span> <span class="nf">projectCreate</span><span class="o">(</span><span class="n">String</span> <span class="n">projectName</span><span class="o">,</span> <span class="n">String</span> <span class="n">guid</span><span class="o">,</span> <span class="n">String</span> <span class="n">environments</span><span class="o">,</span> 
+                                        <span class="n">ConnectionHandle</span><span class="o">&lt;</span><span class="n">Connection</span><span class="o">&gt;</span> <span class="n">con</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">String</span> <span class="n">key</span> <span class="o">=</span> <span class="n">queryKeyFromDatabaseSeries</span><span class="o">(</span><span class="n">con</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">KeyHandle</span><span class="o">.</span><span class="na">ofSelfSupplied</span><span class="o">(</span><span class="k">new</span> <span class="n">NamedParameterStatement</span><span class="o">(</span><span class="n">con</span><span class="o">.</span><span class="na">get</span><span class="o">(),</span> <span class="n">q</span><span class="o">(</span><span class="s">"Q_PROJECT_CREATE"</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="n">ENVIRONMENTS</span><span class="o">,</span> <span class="n">environments</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="n">PROJECT_NAME</span><span class="o">,</span> <span class="n">projectName</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="n">GUID</span><span class="o">,</span> <span class="n">guid</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="n">PROJECT</span><span class="o">,</span> <span class="n">key</span><span class="o">),</span> <span class="n">key</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<h4 id="what-are-the-gui-files-for">What are the GUI files for?</h4>
+
+<p>If you plan to implement a custom GUI for the database wizard this will provide a template for you.</p>
+
+<p>The <code class="highlighter-rouge">TEMPLATE.fxml</code> file can be edited with <a href="https://gluonhq.com/products/scene-builder/">SceneBuilder</a> and already has the <code class="highlighter-rouge">style.css</code> and <code class="highlighter-rouge">iconWizard.png</code> set. To change the icon you will only have to override the <code class="highlighter-rouge">iconWizard.png</code>.</p>
+
+<p><img src="fxml_template.PNG" style="display: block;margin: 1em auto 1.2em auto;" width="500px" /></p>
+
+<p>An implementing controller must extend <a href="javaDocs/de/hshannover/dqgui/dbsupport/gui/AbstractEngineUpdateCreate.html">AbstractEngineUpdateCreate</a>, you can define the implementing controller class by setting the package path + class within the  <code class="highlighter-rouge">fx:controller=""</code> section of the FXML file.</p>
+
+<ul>
+  <li><span style="color: #DE222A">Off limits. Do not edit these section! They are hooked by the AbstractEngineUpdateCreate base class.</span></li>
+  <li><span style="color: #3599E4">Modified by either overriding iconWizard.png or changing the icon via SceneBuilder.</span></li>
+  <li><span style="color: #3BA844">Can be modified freely as long as…</span></li>
+  <li><span style="color: #f4772e">… a TextField with the fxml:id ‘identifier’ exists. This TextField is also hooked by AbstractEngineUpdateCreate.</span></li>
+</ul>
+
+<h3 id="gui-configurations">GUI Configurations</h3>
+
+<p>GUI Configurations declare how the engine should integrate with DQGUIs user interfaces.</p>
+
+<p>A GUI configuration can be created by accessing one of the static factory methods in <a href="javaDocs/de/hshannover/dqgui/execution/database/gui/GuiConfiguration.html">GuiConfiguration</a> class.</p>
+
+<p><img src="gui_config.PNG" style="display: block;margin: 1em auto 1.2em auto;" width="400px" /></p>
+
+<ul>
+  <li><span style="color: #3599E4">What is referred to as <code class="highlighter-rouge">wizardIcon</code>. Only relevant for the JDBCCommon configuration. If not set a placeholder will take its place.</span></li>
+  <li><span style="color: #3BA844">Referred to as <code class="highlighter-rouge">listIcon</code>. Relevant for every engine. If not set a placeholder will take its place.</span></li>
+</ul>
+
+<p><code class="highlighter-rouge">ofCustom()</code>
+- allows to create a custom GUI configuration that is loaded when the engine is edited by the wizard.
+- Provides a <code class="highlighter-rouge">listIcon</code> and custom FXML + CSS for the FXML</p>
+
+<p><code class="highlighter-rouge">ofJDBCCommon()</code>
+- JDBCCommon shall be used for common JDBC engine i.e. they require a host/port/database/username/password.
+- Will also provide a input mask for additional connection parameters
+- Calling this with the two icon parameter will set the <code class="highlighter-rouge">wizardIcon</code> and <code class="highlighter-rouge">listIcon</code></p>
+
+<p><code class="highlighter-rouge">ofFallback()</code>
+- If your engine is not a JDBCCommon and you do not have a custom GUI integration ready. This will set the <code class="highlighter-rouge">listIcon</code> to a placeholder and load an unsafe fallback wizard that does not validate its input.
+- Not recommended but allows the engine to be configured without creating a GUI implementation</p>
+
+<p><img src="gui_unsafe.PNG" style="display: block;margin: 1em auto 1.2em auto;" width="400px" /></p>
+
+<p>As seen in the screenshot, the port is set to -1 and the validation scheme still passes. The placeholder icon can also be seen on the left side.</p>
+
+<p>The <a href="tut-mongo.html">MongoDB tutorial</a> covers a custom GUI implementation.</p>
+
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=footer class=span12>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>Engine Tutorial: Mongo - DQGUI Documentation</title>
+        <meta name="description" content="User and developer documentation">
+
+        <link href="css/bootstrap-2.3.2-combined.no-icons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/syntax.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class=row-fluid id=header>
+                <div id=site-title class=span8>
+                    <h4><a class=brand href="index.html">DQGUI Documentation</a>
+    <small>User and developer documentation</small>
+</h4>
+
+
+                </div>
+                <div id=search class=span4>
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=navigation class=span2>
+                    <ul class="nav nav-list">
+  <li class="nav-header"><a href="javaDocs/index.html">DQGUI Javadoc</a></li>
+    
+
+    
+      
+      
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Documentation</li>
+            
+          
+
+          
+          
+            <li><a href="building.html">Building DQGUI</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="dba.html">Database Abstraction Layer</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="remote-execution.html">Remote Execution Server</a></li>
+          
+          
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Tutorial</li>
+            
+          
+
+          
+          
+            <li class="active"><a href="tut-mongo.html">Engine Tutorial: Mongo</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="tut-pg.html">Engine Tutorial: Postgres</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+          
+            <li class="nav-header" style="font-size: 1em !important;">Reference</li>
+            
+          
+
+          
+          
+            <li><a href="editor.html">Code Editor</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="databases.html">Database Management</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="execution.html">Execution and Reports</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="other.html">Other Features</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+          
+
+          
+          
+            <li><a href="projects.html">Projects</a></li>
+          
+          
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+      
+      
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+        
+
+      
+
+    
+</ul>
+
+                </div>
+
+                <div id=content class=span10>
+                                    <section id="search-results" style="display: none;">
+                    <p>Search results</p>
+                    <div class="entries"></div>
+                </section>
+
+
+                    <h1 class="page-header">Engine Tutorial: Mongo
+                        
+                    </h1>
+
+                    <ol>
+  <li><a href="#preconditions">Preconditions</a></li>
+  <li><a href="#workload">Workload</a></li>
+  <li><a href="#integrating-with-build-script">Integrating with Build Script</a></li>
+  <li><a href="#setting-up-resources">Setting up resources</a></li>
+  <li><a href="#extending-databasefetcher">Extending DatabaseFetcher</a></li>
+  <li><a href="#extending-databaseengine">Extending DatabaseEngine</a></li>
+  <li><a href="#implementing-the-gui-support">Implementing the GUI Support</a>
+    <ol>
+      <li><a href="#the-fxml-part">The FXML Part</a></li>
+      <li><a href="#the-java-part">The Java Part</a></li>
+    </ol>
+  </li>
+  <li><a href="#result">Result</a></li>
+</ol>
+
+
+<hr></hr>
+
+<p><strong>It is required that the article on the <a href="dba.html">Database Abstraction Layer</a> has been read thoroughly in order to be able to follow this tutorial.</strong></p>
+
+<p>This tutorial will show how MongoDB support is implemented via the Database Abstraction Layer.</p>
+
+<h3 id="preconditions">Preconditions</h3>
+
+<ul>
+  <li>MongoDB is not relational</li>
+  <li>MongoDBs official driver is used, it provides no JDBC support</li>
+  <li>We don’t want to offer repository support, only IQM4HD support</li>
+</ul>
+
+<h3 id="workload">Workload</h3>
+<ul>
+  <li>No <a href="javaDocs/de/hshannover/dqgui/execution/database/api/DatabaseFetcher.html">Fetcher</a> exists, thus we need to implement our own.</li>
+  <li>We will use the <a href="javaDocs/de/hshannover/dqgui/execution/database/gui/GuiConfiguration.html">ofCustom() GuiConfiguration</a> and supply our own GUI.</li>
+  <li>No database test exist so we will have to create our own.</li>
+</ul>
+
+<h3 id="integrating-with-build-script">Integrating with Build Script</h3>
+
+<p>We start by unzipping the sub-project skeleton, registering it with the build script and changing all placeholder identifiers to <code class="highlighter-rouge">mongo</code> and adding the MongoDB driver to our sub-project.</p>
+
+<div class="language-gradle highlighter-rouge"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver</span>
+<span class="n">implementation</span> <span class="nl">group:</span> <span class="s1">'org.mongodb'</span><span class="o">,</span> <span class="nl">name:</span> <span class="s1">'mongo-java-driver'</span><span class="o">,</span> <span class="nl">version:</span> <span class="s1">'3.12.2'</span>
+</code></pre>
+</div>
+
+<h3 id="setting-up-resources">Setting up resources</h3>
+
+<p>We copy the FXML, css and fonts folder from the database support zip GUI folder into <code class="highlighter-rouge">engine/mongo</code> resource folder.</p>
+
+<p>We also search the internet for icons that shall be displayed in the wizard and menu and place them in the <code class="highlighter-rouge">engine/mongo</code> folder as well with the following names:
+- wizard icon: <code class="highlighter-rouge">mongo_header.png</code>
+- list icon: <code class="highlighter-rouge">MONGO.png</code></p>
+
+<p>Our resource folder looks like this now:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>.
+├── main
+│   └── resources
+│       └── engine
+│           └── mongo
+│               ├── MONGO.fxml
+│               ├── MONGO.png
+│               ├── fonts
+│               │   └── roboto
+│               │       ├── LICENSE.txt
+│               │       └── Roboto-Regular.ttf
+│               ├── mongo_header.png
+│               └── style.css
+</code></pre>
+</div>
+
+<h3 id="extending-databasefetcher">Extending DatabaseFetcher</h3>
+
+<p>We implement our own fetcher by extending <a href="javaDocs/de/hshannover/dqgui/execution/database/api/DatabaseFetcher.html">DatabaseFetcher</a>.</p>
+
+<p>The actual fetch implementation is copied from the iqm4hd-single implementation and it returns the already implemented DocumentSetIterator that resides in the iqm4hd-single client package.</p>
+
+<p>A fetchers job is to establish a connection, execute queries that return a DatabaseEntryIterator and provide a way to close a connection so no resource leaks can occur.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">MongoDbFetcher</span> <span class="kd">extends</span> <span class="n">DatabaseFetcher</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">MongoClient</span> <span class="n">client</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">MongoDbFetcher</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">connection</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initiate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="n">connectionData</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getFormat</span><span class="o">()</span> <span class="o">==</span> <span class="n">HostFormat</span><span class="o">.</span><span class="na">IPv6</span> 
+                    <span class="o">?</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"[%s]"</span><span class="o">,</span> <span class="n">connectionData</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getHost</span><span class="o">())</span> 
+                    <span class="o">:</span> <span class="n">connectionData</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getHost</span><span class="o">();</span>
+
+        <span class="k">if</span><span class="o">(</span><span class="n">connectionData</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getUsername</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span> 
+            <span class="o">&amp;&amp;</span> <span class="n">connectionData</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getPassword</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MongoClient</span><span class="o">(</span><span class="k">new</span> <span class="n">ServerAddress</span><span class="o">(</span><span class="n">host</span><span class="o">,</span> <span class="n">connectionData</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getPort</span><span class="o">()),</span> 
+                <span class="n">MongoClientOptions</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">serverSelectionTimeout</span><span class="o">(</span><span class="mi">10000</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">MongoCredential</span> <span class="n">credential</span> <span class="o">=</span> <span class="n">MongoCredential</span><span class="o">.</span><span class="na">createCredential</span><span class="o">(</span>
+                <span class="n">connectionData</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getUsername</span><span class="o">(),</span> 
+                <span class="n">connectionData</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getDatabase</span><span class="o">(),</span> 
+                <span class="n">connectionData</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getPassword</span><span class="o">().</span><span class="na">toCharArray</span><span class="o">());</span>
+
+            <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MongoClient</span><span class="o">(</span><span class="k">new</span> <span class="n">ServerAddress</span><span class="o">(</span><span class="n">host</span><span class="o">,</span> <span class="n">connectionData</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getPort</span><span class="o">()),</span> 
+                <span class="n">credential</span><span class="o">,</span> 
+                <span class="n">MongoClientOptions</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">serverSelectionTimeout</span><span class="o">(</span><span class="mi">10000</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">DatabaseEntryIterator</span> <span class="nf">fetch</span><span class="o">(</span><span class="n">String</span> <span class="n">query</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">firstDot</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="sc">'.'</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">secondDot</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="sc">'.'</span><span class="o">,</span> <span class="n">firstDot</span><span class="o">+</span><span class="mi">1</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">open</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="sc">'('</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">close</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">lastIndexOf</span><span class="o">(</span><span class="sc">')'</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">collection</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">firstDot</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">secondDot</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">command</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">secondDot</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">open</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">innerQuery</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">open</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">close</span><span class="o">);</span>
+
+        <span class="n">MongoDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getDatabase</span><span class="o">(</span><span class="n">connectionData</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getDatabase</span><span class="o">());</span>
+        <span class="n">MongoCollection</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="n">coll</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">getCollection</span><span class="o">(</span><span class="n">collection</span><span class="o">);</span>
+        <span class="n">MongoIterable</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="n">res</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">command</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"find"</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">Document</span> <span class="n">queryDoc</span> <span class="o">=</span> <span class="n">Document</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">innerQuery</span><span class="o">);</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">coll</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">queryDoc</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">innerQuery</span> <span class="o">=</span> <span class="s">"{ val: "</span> <span class="o">+</span> <span class="n">innerQuery</span> <span class="o">+</span> <span class="s">"}"</span><span class="o">;</span>
+            <span class="n">Document</span> <span class="n">queryDoc</span> <span class="o">=</span> <span class="n">Document</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">innerQuery</span><span class="o">);</span>
+            <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span>
+            <span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;)</span> <span class="n">queryDoc</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"val"</span><span class="o">);</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">coll</span><span class="o">.</span><span class="na">aggregate</span><span class="o">(</span><span class="n">pipeline</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">DocumentSetIterator</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">client</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="extending-databaseengine">Extending DatabaseEngine</h3>
+
+<p>Now we can implement our <a href="javaDocs/de/hshannover/dqgui/execution/database/api/DatabaseEngine.html">DatabaseEngine</a> subclass in the <code class="highlighter-rouge">de.hshannover.dqgui.engine</code> package.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">de</span><span class="o">.</span><span class="na">hshannover</span><span class="o">.</span><span class="na">dqgui</span><span class="o">.</span><span class="na">engine</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MongoEngine</span> <span class="kd">extends</span> <span class="n">DatabaseEngine</span> <span class="o">{</span>
+    <span class="c1">// Define resource location to resolve resources</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">RESOURCES</span> <span class="o">=</span> <span class="s">"/engine/mongo/"</span><span class="o">;</span>
+    
+    <span class="kd">protected</span> <span class="nf">MongoEngine</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">();</span>
+    <span class="c1">// set identifer after convention</span>
+        <span class="n">registerIdentifier</span><span class="o">(</span><span class="s">"mongo"</span><span class="o">);</span>
+    <span class="c1">// register language for iqm4hd </span>
+        <span class="n">registerLanguage</span><span class="o">(</span><span class="s">"mongo"</span><span class="o">);</span>
+    <span class="c1">// default port for the gui wizard</span>
+        <span class="n">registerPort</span><span class="o">(</span><span class="mi">27017</span><span class="o">);</span>
+
+    <span class="c1">// register our custom GUI support</span>
+        <span class="n">registerGuiSupport</span><span class="o">(</span>
+            <span class="n">GuiConfiguration</span><span class="o">.</span><span class="na">ofCustom</span><span class="o">(</span>
+            <span class="c1">// List icon</span>
+                <span class="n">Icon</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">MongoEngine</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="n">RESOURCES</span> <span class="o">+</span> <span class="s">"MONGO.png"</span><span class="o">)),</span> 
+            <span class="c1">// GUI FXML</span>
+                <span class="n">RESOURCES</span> <span class="o">+</span> <span class="s">"MONGO.fxml"</span><span class="o">,</span>
+            <span class="c1">// GUI CSS</span>
+                <span class="n">RESOURCES</span> <span class="o">+</span> <span class="s">"style.css"</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">loadDatabaseDriver</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">ClassNotFoundException</span> <span class="o">{</span>
+        <span class="c1">// nothing to load here</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">DatabaseFetcher</span> <span class="nf">createFetcher</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//return our created fetcher</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">MongoDbFetcher</span><span class="o">(</span><span class="n">connection</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">name</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"MongoDB"</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isRelational</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">allowUseForRepository</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">allowUseForIqm4hd</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">supportsJdbc</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">createDataSourceUrl</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// since it is no jdbc backed engine we dont need for format a datasource url</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"rawtypes"</span><span class="o">)</span>
+    <span class="nd">@SuppressFBWarnings</span><span class="o">(</span><span class="s">"RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">DatabaseTestResult</span> <span class="nf">test</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// own test implementation</span>
+
+        <span class="n">String</span> <span class="n">host</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getFormat</span><span class="o">()</span> <span class="o">==</span> <span class="n">HostFormat</span><span class="o">.</span><span class="na">IPv6</span> 
+                <span class="o">?</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"[%s]"</span><span class="o">,</span> <span class="n">connection</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getHost</span><span class="o">())</span> 
+                <span class="o">:</span> <span class="n">connection</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getHost</span><span class="o">();</span>
+
+        <span class="k">if</span><span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getUsername</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span> 
+            <span class="o">&amp;&amp;</span> <span class="n">connection</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getPassword</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">try</span><span class="o">(</span><span class="n">MongoClient</span> <span class="n">m</span> <span class="o">=</span> 
+                    <span class="k">new</span> <span class="nf">MongoClient</span><span class="o">(</span><span class="k">new</span> <span class="n">ServerAddress</span><span class="o">(</span><span class="n">host</span><span class="o">,</span> <span class="n">connection</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getPort</span><span class="o">()),</span> 
+                                    <span class="n">MongoClientOptions</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">serverSelectionTimeout</span><span class="o">(</span><span class="mi">500</span><span class="o">).</span><span class="na">build</span><span class="o">()))</span> <span class="o">{</span>
+
+                <span class="n">MongoDatabase</span> <span class="n">database</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="na">getDatabase</span><span class="o">(</span><span class="s">"admin"</span><span class="o">);</span>
+                <span class="n">Document</span> <span class="n">serverStatus</span> <span class="o">=</span> <span class="n">database</span><span class="o">.</span><span class="na">runCommand</span><span class="o">(</span><span class="k">new</span> <span class="n">Document</span><span class="o">(</span><span class="s">"serverStatus"</span><span class="o">,</span> <span class="mi">1</span><span class="o">));</span>
+                <span class="n">Map</span> <span class="n">connections</span> <span class="o">=</span> <span class="o">(</span><span class="n">Map</span><span class="o">)</span> <span class="n">serverStatus</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"connections"</span><span class="o">);</span>
+                <span class="n">connections</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"current"</span><span class="o">);</span>
+                <span class="k">return</span> <span class="k">new</span> <span class="nf">DatabaseTestResult</span><span class="o">();</span>
+            <span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="k">new</span> <span class="nf">DatabaseTestResult</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">MongoCredential</span> <span class="n">credential</span> <span class="o">=</span> <span class="n">MongoCredential</span><span class="o">.</span><span class="na">createCredential</span><span class="o">(</span>
+                <span class="n">connection</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getUsername</span><span class="o">(),</span> 
+                <span class="n">connection</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getDatabase</span><span class="o">(),</span> 
+                <span class="n">connection</span><span class="o">.</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getPassword</span><span class="o">().</span><span class="na">toCharArray</span><span class="o">());</span>
+
+            <span class="k">try</span><span class="o">(</span><span class="n">MongoClient</span> <span class="n">m</span> <span class="o">=</span> 
+                <span class="k">new</span> <span class="nf">MongoClient</span><span class="o">(</span><span class="k">new</span> <span class="n">ServerAddress</span><span class="o">(</span><span class="n">host</span><span class="o">,</span> <span class="n">connection</span><span class="o">.</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getPort</span><span class="o">()),</span> 
+                                <span class="n">credential</span><span class="o">,</span> 
+                                <span class="n">MongoClientOptions</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">serverSelectionTimeout</span><span class="o">(</span><span class="mi">500</span><span class="o">).</span><span class="na">build</span><span class="o">()))</span> <span class="o">{</span>
+
+                <span class="n">MongoDatabase</span> <span class="n">database</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="na">getDatabase</span><span class="o">(</span><span class="s">"admin"</span><span class="o">);</span>
+                <span class="n">Document</span> <span class="n">serverStatus</span> <span class="o">=</span> <span class="n">database</span><span class="o">.</span><span class="na">runCommand</span><span class="o">(</span><span class="k">new</span> <span class="n">Document</span><span class="o">(</span><span class="s">"serverStatus"</span><span class="o">,</span> <span class="mi">1</span><span class="o">));</span>
+                <span class="n">Map</span> <span class="n">connections</span> <span class="o">=</span> <span class="o">(</span><span class="n">Map</span><span class="o">)</span> <span class="n">serverStatus</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"connections"</span><span class="o">);</span>
+                <span class="n">connections</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"current"</span><span class="o">);</span>
+                <span class="k">return</span> <span class="k">new</span> <span class="nf">DatabaseTestResult</span><span class="o">();</span>
+            <span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="k">new</span> <span class="nf">DatabaseTestResult</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">Repository</span><span class="o">&lt;?&gt;</span> <span class="n">createRepositoryForConnection</span><span class="o">(</span><span class="n">DatabaseConnection</span> <span class="n">connection</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// no repository support so no repository to create</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre>
+</div>
+
+<h3 id="implementing-the-gui-support">Implementing the GUI Support</h3>
+
+<h4 id="the-fxml-part">The FXML Part</h4>
+
+<p>We rename our TEMPLATE.fxml file to MONGO.fxml and edit it.</p>
+
+<p>Setting the correct image within the header ImageView.</p>
+
+<p><img src="mongo_gui_2.PNG" /></p>
+
+<p><img src="mongo_gui_1.PNG" width="400px" /></p>
+
+<p>Styling the authentication button to our liking.</p>
+
+<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nc">.auth-button</span> <span class="p">{</span>
+    <span class="py">-fx-border-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+    <span class="py">-fx-border-radius</span><span class="p">:</span> <span class="m">5</span><span class="p">;</span>
+    <span class="py">-fx-text-fill</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.auth-button</span><span class="nd">:hover</span> <span class="p">{</span>
+    <span class="py">-fx-scale-y</span><span class="p">:</span> <span class="m">1.05</span><span class="p">;</span>
+    <span class="py">-fx-scale-x</span><span class="p">:</span> <span class="m">1.05</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#auth-disable</span> <span class="p">{</span>
+    <span class="py">-fx-background-color</span><span class="p">:</span> <span class="m">#ff4444</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#auth-enable</span> <span class="p">{</span>
+    <span class="py">-fx-background-color</span><span class="p">:</span> <span class="m">#33b5e5</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And setting the correct css classes on it.</p>
+
+<p><img src="mongo_gui_3.png" /></p>
+
+<p>Also making sure all relevant field have fx:id’s set that allows JavaFX to inject them into the controller and ensuring we have our controller class set.</p>
+
+<p><img src="mongo_gui_4.PNG" /></p>
+
+<h4 id="the-java-part">The Java Part</h4>
+
+<p>We create a custom controller by extending <a href="javaDocs/de/hshannover/dqgui/dbsupport/gui/AbstractEngineUpdateCreate.html">AbstractEngineUpdateCreate</a> and annotate all JavaFX components that should be injected.</p>
+
+<p>The field name must be equal to the fx:id entry.</p>
+
+<p>We can than implement our custom GUI controller with validation that will be hooked by all database related wizards.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">de</span><span class="o">.</span><span class="na">hshannover</span><span class="o">.</span><span class="na">dqgui</span><span class="o">.</span><span class="na">engine</span><span class="o">.</span><span class="na">mongodb</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">MongoDbGui</span> <span class="kd">extends</span> <span class="n">AbstractEngineUpdateCreate</span> <span class="o">{</span>
+    <span class="nd">@FXML</span>
+    <span class="n">TextField</span> <span class="n">host</span><span class="o">,</span> <span class="n">port</span><span class="o">,</span> <span class="n">database</span><span class="o">,</span> <span class="n">username</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">;</span>
+    <span class="nd">@FXML</span>
+    <span class="n">PasswordField</span> <span class="n">password</span><span class="o">;</span>
+    <span class="nd">@FXML</span>
+    <span class="n">Button</span> <span class="n">backOrCancel</span><span class="o">,</span> <span class="n">finishOrSave</span><span class="o">;</span>
+    <span class="nd">@FXML</span>
+    <span class="n">ToggleButton</span> <span class="n">authToggle</span><span class="o">;</span>
+    
+<span class="c1">// A listener that changes if the toggle triggers</span>
+<span class="c1">// We disable/enable &amp; clear the user fields depending on the state</span>
+<span class="c1">// We also change the css id to signalize that the authentication mode changed</span>
+<span class="c1">// To trigger the reevaluation of the password/user validators we also set user in case auth</span>
+<span class="c1">// has been enabled</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ChangeListener</span><span class="o">&lt;</span><span class="n">Boolean</span><span class="o">&gt;</span> <span class="n">authListener</span> <span class="o">=</span> <span class="o">(</span><span class="n">obs</span><span class="o">,</span> <span class="n">o</span><span class="o">,</span> <span class="n">n</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="n">authToggle</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">n</span> <span class="o">?</span> <span class="s">"auth-disable"</span> <span class="o">:</span> <span class="s">"auth-enable"</span><span class="o">);</span>
+        <span class="n">password</span><span class="o">.</span><span class="na">setDisable</span><span class="o">(!</span><span class="n">n</span><span class="o">);</span>
+        <span class="n">username</span><span class="o">.</span><span class="na">setDisable</span><span class="o">(!</span><span class="n">n</span><span class="o">);</span>
+        <span class="k">if</span><span class="o">(!</span><span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">password</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+            <span class="n">username</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">password</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"user"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">};</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onInitialize</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Register validators with super class</span>
+        <span class="c1">// A createEmptyValidator ensures a javafx control is not empty or null</span>
+        <span class="c1">// A predicateValidator causes the error message to be propagated if the predicate returns false</span>
+
+        <span class="n">getValidationSupport</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">registerValidator</span><span class="o">(</span><span class="n">database</span><span class="o">,</span> <span class="n">Validator</span><span class="o">.</span><span class="na">createEmptyValidator</span><span class="o">(</span><span class="s">"Database must be set."</span><span class="o">));</span>
+        <span class="n">getValidationSupport</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">registerValidator</span><span class="o">(</span><span class="n">host</span><span class="o">,</span> <span class="n">Validator</span><span class="o">.</span><span class="na">createEmptyValidator</span><span class="o">(</span><span class="s">"Host must be set."</span><span class="o">));</span>
+
+        <span class="c1">// verifyPort is a method the super class provides for us</span>
+        <span class="n">getValidationSupport</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">registerValidator</span><span class="o">(</span><span class="n">port</span><span class="o">,</span> 
+                <span class="n">Validator</span><span class="o">.</span><span class="na">createPredicateValidator</span><span class="o">(</span><span class="n">p</span> <span class="o">-&gt;</span> <span class="n">verifyPort</span><span class="o">(</span><span class="n">port</span><span class="o">.</span><span class="na">getText</span><span class="o">()),</span> 
+                    <span class="s">"Port must be int 0 &lt;= port &lt;= 65535."</span><span class="o">));</span>
+        <span class="n">getValidationSupport</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">registerValidator</span><span class="o">(</span><span class="n">username</span><span class="o">,</span> 
+                <span class="n">Validator</span><span class="o">.</span><span class="na">createPredicateValidator</span><span class="o">(</span><span class="n">p</span> <span class="o">-&gt;</span> <span class="n">verifyUsernameAndPassword</span><span class="o">(),</span> 
+                    <span class="s">"Username/Password must be set."</span><span class="o">));</span>
+        <span class="n">getValidationSupport</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">registerValidator</span><span class="o">(</span><span class="n">password</span><span class="o">,</span> 
+                <span class="n">Validator</span><span class="o">.</span><span class="na">createPredicateValidator</span><span class="o">(</span><span class="n">p</span> <span class="o">-&gt;</span> <span class="n">verifyUsernameAndPassword</span><span class="o">(),</span> 
+                    <span class="s">"Username/Password must be set."</span><span class="o">));</span>
+        
+        <span class="c1">// register a wizard close hook that unregisters the listener again</span>
+        <span class="c1">// we are using a strongly referenced listener, not removing it could cause memory leaks</span>
+        <span class="c1">// as it would never be collected by the GC</span>
+        <span class="n">registerWizardCloseHook</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">authToggle</span><span class="o">.</span><span class="na">selectedProperty</span><span class="o">().</span><span class="na">removeListener</span><span class="o">(</span><span class="n">authListener</span><span class="o">));</span>
+
+        <span class="c1">// add toggle listener</span>
+        <span class="n">authToggle</span><span class="o">.</span><span class="na">selectedProperty</span><span class="o">().</span><span class="na">addListener</span><span class="o">(</span><span class="n">authListener</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">verifyUsernameAndPassword</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(!</span><span class="n">authToggle</span><span class="o">.</span><span class="na">isSelected</span><span class="o">())</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">username</span><span class="o">.</span><span class="na">getText</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span> 
+                <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">username</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">trim</span><span class="o">().</span><span class="na">isEmpty</span><span class="o">()</span>
+                <span class="o">&amp;&amp;</span> <span class="n">password</span><span class="o">.</span><span class="na">getText</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span> 
+                <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">password</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">trim</span><span class="o">().</span><span class="na">isEmpty</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onUpdate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// the onUpdate call signals us that the user wants to update the connection</span>
+        <span class="c1">// thus we can fill the fields with the values of the connection the user</span>
+        <span class="c1">// wants to update</span>
+
+        <span class="kt">boolean</span> <span class="n">isProtected</span> <span class="o">=</span> <span class="n">oldConnection</span><span class="o">().</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getPassword</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span> 
+            <span class="o">&amp;&amp;</span> <span class="n">oldConnection</span><span class="o">().</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getUsername</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span>
+        
+        <span class="n">authToggle</span><span class="o">.</span><span class="na">setSelected</span><span class="o">(</span><span class="n">isProtected</span><span class="o">);</span>
+
+        <span class="k">if</span><span class="o">(</span><span class="n">isProtected</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">password</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">oldConnection</span><span class="o">().</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getPassword</span><span class="o">());</span>
+            <span class="n">username</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">oldConnection</span><span class="o">().</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getUsername</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="n">port</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">oldConnection</span><span class="o">().</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getPort</span><span class="o">()));</span>
+        <span class="n">host</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">oldConnection</span><span class="o">().</span><span class="na">getSocket</span><span class="o">().</span><span class="na">getHost</span><span class="o">());</span>
+        <span class="n">database</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">oldConnection</span><span class="o">().</span><span class="na">getCredential</span><span class="o">().</span><span class="na">getDatabase</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreation</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// the onCreation call signals us that the user is creating a new connection</span>
+        <span class="c1">// we thus set the toggle to disable and unpack the optional port</span>
+
+        <span class="n">port</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">engine</span><span class="o">().</span><span class="na">defaultPort</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">s</span> <span class="o">-&gt;</span> <span class="n">Integer</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">s</span><span class="o">)).</span><span class="na">orElse</span><span class="o">(</span><span class="s">""</span><span class="o">));</span>
+        <span class="n">authToggle</span><span class="o">.</span><span class="na">setSelected</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">DatabaseConnection</span> <span class="nf">retrieveResult</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// the retrive hook only requires us to create the connection object</span>
+
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">dummy</span> <span class="o">=</span> <span class="n">Collections</span><span class="o">.</span><span class="na">emptyMap</span><span class="o">();</span>
+        <span class="n">DatabaseSocket</span> <span class="n">s</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DatabaseSocket</span><span class="o">(</span><span class="n">host</span><span class="o">.</span><span class="na">getText</span><span class="o">(),</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">port</span><span class="o">.</span><span class="na">getText</span><span class="o">()));</span>
+        <span class="n">DatabaseCredential</span> <span class="n">c</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DatabaseCredential</span><span class="o">(</span>
+            <span class="n">authToggle</span><span class="o">.</span><span class="na">isSelected</span><span class="o">()</span> <span class="o">?</span> <span class="n">username</span><span class="o">.</span><span class="na">getText</span><span class="o">()</span> <span class="o">:</span> <span class="kc">null</span><span class="o">,</span> 
+            <span class="n">authToggle</span><span class="o">.</span><span class="na">isSelected</span><span class="o">()</span> <span class="o">?</span> <span class="n">password</span><span class="o">.</span><span class="na">getText</span><span class="o">()</span> <span class="o">:</span> <span class="kc">null</span><span class="o">,</span> 
+            <span class="n">database</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+
+        <span class="k">return</span> <span class="n">DatabaseConnection</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">getIdentifier</span><span class="o">(),</span>  <span class="n">engine</span><span class="o">(),</span>  <span class="n">s</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">dummy</span><span class="o">,</span> <span class="n">dummy</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre>
+</div>
+
+<h3 id="result">Result</h3>
+
+<p>After implementing all of this we should have a working MongoDB engine implementation with IQM4HD and custom GUI support.</p>
+
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                <div id=footer class=span12>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
