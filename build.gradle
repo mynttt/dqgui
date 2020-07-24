@@ -1,0 +1,104 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+    dependencies {
+        classpath 'com.adarshr:gradle-test-logger-plugin:2.0.0'
+        classpath "com.github.jruby-gradle:jruby-gradle-plugin:[1.1.4,2.0)"
+        classpath 'org.owasp:dependency-check-gradle:5.2.1'
+    }
+}
+
+project.ext.set("tinylogVersion", '2.0.0')
+project.ext.set("gsonVersion", '2.8.6')
+project.ext.set("snakeyamlVersion", '1.25')
+project.ext.set("controlsfxVersion", '11.0.2')
+project.ext.set("commonsValidatorVersion", '1.6') 
+
+allprojects  {
+    apply plugin: 'eclipse'
+    apply plugin: 'java'
+    apply plugin: 'com.adarshr.test-logger'
+    apply plugin: 'org.owasp.dependencycheck'
+
+    repositories {
+        jcenter()
+    }
+    
+    if(!it.toString().contains('iqm4hd-mocked')) {
+        dependencies {
+            implementation project(":iqm4hd-mocked")
+        }
+    }
+    
+    def currentOS = org.gradle.internal.os.OperatingSystem.current()
+    def platform
+    if (currentOS.isWindows()) {
+        platform = 'win'
+    } else if (currentOS.isLinux()) {
+        platform = 'linux'
+    } else if (currentOS.isMacOsX()) {
+        platform = 'mac'
+    }
+
+    dependencies {
+        testImplementation 'junit:junit:4.12'
+
+        implementation 'com.google.guava:guava:28.0-jre'
+        
+        // https://mvnrepository.com/artifact/org.tinylog/tinylog-impl
+        implementation group: 'org.tinylog', name: 'tinylog-impl', version: rootProject.tinylogVersion
+        
+        // https://mvnrepository.com/artifact/org.tinylog/slf4j-tinylog
+        implementation group: 'org.tinylog', name: 'slf4j-tinylog', version: rootProject.tinylogVersion
+    
+        implementation "org.openjfx:javafx-media:13:${platform}"
+        implementation "org.openjfx:javafx-base:13:${platform}"
+        implementation "org.openjfx:javafx-controls:13:${platform}"
+        implementation "org.openjfx:javafx-fxml:13:${platform}"
+        implementation "org.openjfx:javafx-swing:13:${platform}"
+        implementation "org.openjfx:javafx-web:13:${platform}"
+        implementation "org.openjfx:javafx-graphics:13:${platform}"
+    }
+
+    group = 'de.hshannover.dqgui'
+    sourceCompatibility = '11'
+
+    testlogger {
+        theme 'plain'
+        showStandardStreams true
+    }
+}
+
+apply plugin: 'com.github.jruby-gradle.base'
+import com.github.jrubygradle.JRubyExec
+def jekyllSite = new File(projectDir, '/jekyll').toString()
+
+dependencies {
+	//Static site generation
+    jrubyExec 'rubygems:jekyll:3.5.2'
+    jrubyExec 'rubygems:bundler:1.15.4'
+    jrubyExec 'rubygems:kramdown:1.11.1'
+}
+
+task jekyllBuild(type: JRubyExec) {
+    group "Documentation"
+    description "Build the Jekyll documentation for DQGUI"
+    script 'jekyll'
+    scriptArgs 'build', '-s', jekyllSite, '-d', 'projectDocs'
+}
+
+javadoc {
+    subprojects.each { source it.sourceSets.main.allJava }
+    classpath = files(subprojects.collect { project -> project.sourceSets.main.compileClasspath })
+    failOnError = false
+    destinationDir = rootProject.file('javaDocs')
+    title = "DQGUI Javadoc"
+    options.memberLevel = JavadocMemberLevel.PROTECTED
+}
+
+jar.enabled = false
+jar.dependsOn javadoc, jekyllBuild

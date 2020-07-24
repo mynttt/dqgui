@@ -1,0 +1,7 @@
+#FIELD_EXIST_IN_CONTAINER_BUT_NOT_IN_CONFIG
+
+validate: true
+container: framework.mock.ContainerMockField
+consumer-roots:
+   - id: test
+     root: framework.mock

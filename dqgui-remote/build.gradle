@@ -1,0 +1,76 @@
+plugins {
+    id 'application'
+    id "com.github.spotbugs" version "2.0.1"
+}
+
+dependencies {
+    implementation project(":dqgui-execution")
+    
+    rootProject.subprojects.findAll { 
+    	prj -> if(prj.name.startsWith("database-"))
+    		implementation project(":" + prj.name)
+    }
+
+    // https://mvnrepository.com/artifact/io.javalin/javalin
+    implementation group: 'io.javalin', name: 'javalin', version: '3.8.0'
+    
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
+	implementation group: 'com.google.code.gson', name: 'gson', version: rootProject.gsonVersion
+    
+    // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
+    implementation group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '3.1.12'
+    
+    // Only for mocked public release
+    compile group: 'org.rosuda.REngine', name: 'Rserve', version: '1.8.1'
+}
+
+version = 'public-release'
+new File(projectDir, "src/main/resources/dqgui/remote/VERSION").text = version;
+
+application {
+    mainClassName = 'de.hshannover.dqgui.remote.Main'
+}
+
+spotbugs {
+    ignoreFailures = false
+    sourceSets = [sourceSets.main]
+    effort = "max"
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    reports.xml.enabled = false
+    reports.html.enabled = true
+}
+
+task fatJar(type: Jar) {
+	destinationDir rootProject.file('bin')
+    baseName = "dqgui-remote"
+    
+  	manifest {
+        attributes(
+            'Built-By'       : System.properties['user.name'],
+            'Build-Timestamp': new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+            'Build-Revision' : version,
+            'Created-By'     : "Gradle ${gradle.gradleVersion}",
+            'Build-Jdk'      : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+            'Build-OS'       : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}",
+            "Main-Class": "de.hshannover.dqgui.remote.Main"
+        )
+    }
+    
+    from {
+        configurations.runtimeClasspath.filter({! (it.name =~ ".*javafx.*")}).collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    with jar
+}
+
+jar {
+  baseName = "dqgui-remote-slim"
+    
+  manifest { 
+    attributes "Main-Class": "de.hshannover.dqgui.remote.Main"
+  }  
+}
+
+jar.dependsOn fatJar

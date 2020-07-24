@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="677.0" prefWidth="972.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hshannover.dqgui.core.controllers.RServeController">
+   <top>
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" styleClass="font-30" text="RServe Service Panel">
+               <HBox.margin>
+                  <Insets bottom="5.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets bottom="15.0" top="10.0" />
+               </VBox.margin>
+               <children>
+                  <Label id="rserve-offline" fx:id="status" minHeight="-Infinity" minWidth="-Infinity" styleClass="rserve-status" text="OFFLINE" />
+               </children>
+            </HBox>
+            <HBox prefHeight="486.0" prefWidth="581.0" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <children>
+                  <TextArea fx:id="output" editable="false" prefHeight="443.0" prefWidth="817.0" promptText="No instance running at the moment..." styleClass="rserve-text-area" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Label minHeight="-Infinity" minWidth="80.0" styleClass="bold" text="R" />
+                              <Label fx:id="r" text="?" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label minHeight="-Infinity" minWidth="80.0" styleClass="bold" text="PWD" />
+                              <Label fx:id="pwd" text="?" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label minHeight="-Infinity" minWidth="80.0" styleClass="bold" text="Script" />
+                              <Label fx:id="script" text="?" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label minHeight="-Infinity" minWidth="80.0" styleClass="bold" text="Args" />
+                              <Label fx:id="args" text="?" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label minHeight="-Infinity" minWidth="80.0" styleClass="bold" text="Autostart" />
+                              <Label id="rserve-online" fx:id="autostart" minHeight="-Infinity" minWidth="-Infinity" styleClass="bold" text="ENABLED" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_RIGHT" VBox.vgrow="NEVER">
+               <children>
+                  <Button fx:id="start" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#start" prefWidth="100.0" styleClass="dropshadow-button" text="Start">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="stop" disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#stop" prefWidth="100.0" styleClass="dropshadow-button" text="Stop">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#close" prefWidth="100.0" styleClass="dropshadow-button" text="Close" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets left="20.0" right="20.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+</BorderPane>

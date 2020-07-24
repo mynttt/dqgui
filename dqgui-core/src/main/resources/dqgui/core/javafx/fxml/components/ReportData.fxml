@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hshannover.dqgui.core.components.ReportDataComponent">
+   <center>
+      <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Report">
+               <content>
+                  <Accordion fx:id="accordion">
+                    <panes>
+                        <TitledPane fx:id="info" animated="false" text="Info">
+                           <content>
+                              <TextArea fx:id="infoText" editable="false" styleClass="rserve-text-area" />
+                           </content>
+                        </TitledPane>
+                        <TitledPane fx:id="issues" animated="false" expanded="false" text="Issues">
+                           <content>
+                              <TableView fx:id="issuesTable" prefHeight="200.0" prefWidth="200.0" styleClass="issue-table" tableMenuButtonVisible="true">
+                                <columns>
+                                  <TableColumn fx:id="colSeverity" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Severity" />
+                                  <TableColumn fx:id="colScore" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Score" />
+                                    <TableColumn fx:id="colData" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Data" />
+                                    <TableColumn fx:id="colInfo" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" sortable="false" text="Info" />
+                                </columns>
+                              </TableView>
+                           </content></TitledPane>
+                      <TitledPane animated="false" expanded="false" minHeight="-Infinity" minWidth="-Infinity" text="Database Trace">
+                           <content>
+                              <TextArea fx:id="databaseTrace" editable="false" styleClass="rserve-text-area" />
+                           </content></TitledPane>
+                      <TitledPane animated="false" expanded="false" text="Log">
+                           <content>
+                              <TextArea fx:id="log" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="rserve-text-area" />
+                           </content></TitledPane>
+                    </panes>
+                  </Accordion>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hshannover.dqgui.core.components.PropertiesRepoFilesystemServiceComponent">
+   <center>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <children>
+                  <Label styleClass="font-20" text="Global Checks" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <TextField fx:id="pathTextfield" promptText="No path chosen! " styleClass="dqgui-textfield" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </TextField>
+                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#setGlobalChecks" styleClass="dropshadow-button" text="Choose">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="openGlobalCheckButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openGlobalChecks" styleClass="dropshadow-button" text="Open" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <stylesheets>
+      <URL value="@../../style.css" />
+   </stylesheets>
+   <padding>
+      <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+   </padding>
+</BorderPane>

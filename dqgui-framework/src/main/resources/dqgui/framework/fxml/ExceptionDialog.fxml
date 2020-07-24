@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hshannover.dqgui.framework.dialogs.ExceptionDialog">
+   <top>
+      <HBox minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #F7F7F7;" styleClass="exception-dialog-header" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="header" minHeight="-Infinity" minWidth="-Infinity" text="__ERR_MSG">
+               <HBox.margin>
+                  <Insets left="30.0" top="25.0" />
+               </HBox.margin>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <ImageView pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/error.png" />
+               </image>
+               <HBox.margin>
+                  <Insets bottom="20.0" right="30.0" top="20.0" />
+               </HBox.margin>
+            </ImageView>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+         <children>
+            <HBox>
+               <children>
+                  <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="font-18" text="Operation failed duo to:" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="reason" minHeight="-Infinity" minWidth="-Infinity" style="-fx-text-fill: red;" styleClass="font-18" text="__REPLACE" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </HBox>
+            <Label fx:id="message" maxWidth="790.0" style="-fx-font-family: 'Roboto Italic'; -fx-text-fill: red;" styleClass="font-16" text="__MESSAGE" wrapText="true">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </Label>
+            <Label fx:id="info" maxWidth="1.7976931348623157E308" style="-fx-border-style: solid none solid none; -fx-border-color: #A0A0A0;" styleClass="font-16" text="__INFO" wrapText="true">
+               <padding>
+                  <Insets bottom="15.0" top="15.0" />
+               </padding></Label>
+            <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="font-12" text="Please send this stacktrace to the developers if you want to report an error.">
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </Label>
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <TextArea fx:id="stacktrace" prefHeight="200.0" prefWidth="800.0" styleClass="exception-dialog-stacktrace" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="14.0" left="20.0" right="20.0" top="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+         <children>
+            <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cont" prefWidth="150.0" styleClass="dropshadow-button" text="Continue">
+               <HBox.margin>
+                  <Insets bottom="13.0" right="20.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

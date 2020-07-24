@@ -1,0 +1,78 @@
+# Dependency Injection Configuration
+
+# Set this to false once it validated correctly to start the application faster
+validate: false
+
+# Targeted container
+container: de.hshannover.dqgui.core.configuration.DependencyContainer
+
+# Add dependencies here
+# The following fields are required:
+# 	- field: name of field in the container and targeted consumer
+# 	- target: the class that should be mapped with the field
+# The following fields are optional:
+# 	- serialize: name of serialized file, the file will be serialized as json in the specified serializationRoot() folder
+dependencies:
+   - field: properties
+     serialize: properties.json
+     target: de.hshannover.dqgui.core.model.ApplicationProperties
+   - field: taskHandler
+     target: de.hshannover.dqgui.core.concurrency.TaskHandler
+   - field: rServeInstance
+     target: de.hshannover.dqgui.core.rsupport.RServeInstance
+   - field: applicationState
+     target: de.hshannover.dqgui.core.model.ApplicationState
+   - field: projectHandle
+     target: de.hshannover.dqgui.core.model.ProjectHandle
+   - field: remoteConnection
+     target: de.hshannover.dqgui.core.util.RemoteConnection
+
+# Consumer roots with an id that is used to declare the consumers
+consumer-roots:
+   - id: controllers
+     root: de.hshannover.dqgui.core.controllers
+   - id: components
+     root: de.hshannover.dqgui.core.components
+
+# Specify consumer here
+# Consumer has a class name and a list of fields that should be injected
+consumers:
+   controllers:
+      - MainController:
+         - taskHandler
+         - properties
+         - applicationState
+         - projectHandle
+         - remoteConnection
+      - PropertiesController:
+         - properties
+         - rServeInstance
+         - projectHandle
+      - RServeController:
+         - rServeInstance
+         - properties
+      - LivelogController:
+         - projectHandle
+      - ReportsController:
+         - projectHandle
+      - RepositorySearchController:
+         - projectHandle
+         - applicationState
+      - RepoExport:
+         - projectHandle
+      - RepoImport:
+         - projectHandle
+      - ProjectsController:
+         - properties
+         - projectHandle
+      - RemoteExecutionController:
+         - remoteConnection
+         - properties
+         - projectHandle
+      - ConnectionCompareController:
+         - projectHandle
+   components:
+      - ReportDataComponent:
+         - projectHandle
+      - ReportIdentifierOverviewComponent:
+         - projectHandle

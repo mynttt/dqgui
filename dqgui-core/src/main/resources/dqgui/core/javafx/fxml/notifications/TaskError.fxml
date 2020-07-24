@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="500.0" styleClass="custom-notification-base" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
+   <right>
+      <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_RIGHT">
+         <image>
+            <Image url="@../../../assets/img/ui/error.png" />
+         </image>
+         <BorderPane.margin>
+            <Insets bottom="13.0" right="15.0" top="13.0" />
+         </BorderPane.margin>
+      </ImageView>
+   </right>
+   <center>
+      <VBox minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
+         <children>
+            <Label minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" style="-fx-font-family: 'Roboto Bold'; -fx-font-size: 18pt;" text="IQM4HD invocation failed" wrapText="true">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <Label minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" style="-fx-font-size: 14pt;" text="_HEADER" wrapText="true">
+               <VBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <HBox>
+               <children>
+                  <Label minHeight="-Infinity" minWidth="-Infinity" style="-fx-font-family: 'Roboto Bold'; -fx-font-size: 12pt;" text="Time:">
+                  </Label>
+                  <Label minHeight="-Infinity" minWidth="-Infinity" style="-fx-font-family: 'Roboto Italic'; -fx-font-size: 12pt;" text="_TIME">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

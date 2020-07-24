@@ -1,0 +1,30 @@
+plugins {
+    id "com.github.spotbugs" version "2.0.1"
+    id 'java-library'
+}
+
+dependencies {
+    implementation project(":dqgui-framework")
+    implementation project(":dqgui-execution")
+
+	// https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+	api group: 'org.controlsfx', name: 'controlsfx', version: rootProject.controlsfxVersion
+	
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
+	implementation group: 'com.google.code.gson', name: 'gson', version: rootProject.gsonVersion
+
+    // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
+    implementation group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '3.1.12'
+}
+
+spotbugs {
+    ignoreFailures = false
+    sourceSets = [sourceSets.main]
+    effort = "max"
+    includeFilter = file("../dqgui-core/config/spotbugs_ignore.xml")
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    reports.xml.enabled = false
+    reports.html.enabled = true
+}

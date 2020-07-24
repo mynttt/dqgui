@@ -1,0 +1,28 @@
+<ul class="nav nav-list">
+  <li class="nav-header"><a href="../javaDocs/index.html">DQGUI Javadoc</a></li>
+    {% assign sorted_pages = (site.pages | sort: 'title') %}
+
+    {% for s in site.sections %}
+      {% assign found = '0' %}
+      
+      {% for p in sorted_pages %}
+
+        {% if p.category == s[0] %}
+
+          {% if found == '0' %}
+            <li class="nav-header" style="font-size: 1em !important;">{{ s[1] }}</li>
+            {% assign found = '1' %}
+          {% endif %}
+
+          {% if p.dir == page.dir and p.url contains 'index.html' %}{% else %}
+          {% if p.dir == page.dir %}
+            <li{% if p.url == page.url %} class="active"{% endif %}><a href="{{ p.url | replace_first: '/', '' }}">{{ p.title }}</a></li>
+          {% endif %}
+          {% endif %}
+
+        {% endif %}
+
+      {% endfor %}
+
+    {% endfor %}
+</ul>

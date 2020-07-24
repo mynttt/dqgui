@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="600.0" prefWidth="1200.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hshannover.dqgui.core.controllers.MainController">
+   <bottom>
+      <HBox minHeight="25.0" prefHeight="25.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Status: Started">
+               <HBox.margin>
+                  <Insets left="6.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+         </children></HBox>
+   </bottom>
+   <top>
+      <VBox prefHeight="62.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <Menu fx:id="newComponentMenu" mnemonicParsing="false" text="New...">
+                    	<items>
+                    		<MenuItem onAction="#newSource" text="Source">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator></MenuItem>
+                    		<MenuItem onAction="#newAction" text="Action">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="DOWN" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator></MenuItem>
+                    		<MenuItem onAction="#newCheck" text="Check">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="DOWN" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator></MenuItem>
+                    	</items>
+                    </Menu>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="close" mnemonicParsing="false" onAction="#closeTab" text="Close">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="W" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="closeAll" mnemonicParsing="false" onAction="#closeAllTabs" text="Close All">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="W" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveSelected" text="Save">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="saveAs" mnemonicParsing="false" onAction="#saveSelectedAs" text="Save As...">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="saveAll" mnemonicParsing="false" onAction="#saveAll" text="Save All">
+                        	<accelerator>
+                              <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem fx:id="undoButton" mnemonicParsing="false" onAction="#undo" text="Undo">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="redoButton" mnemonicParsing="false" onAction="#redo" text="Redo">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="Repository">
+                    <items>
+                      <MenuItem fx:id="globalSearch" mnemonicParsing="false" onAction="#globalSearch" text="Repository Search">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="H" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="manageProjects" mnemonicParsing="false" onAction="#manageProjects" text="Manage Projects">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="M" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="repositoryReload" mnemonicParsing="false" onAction="#reloadRepository" text="Repository Reload" />
+                        <SeparatorMenuItem fx:id="importExportSeperator" mnemonicParsing="false" />
+                        <MenuItem fx:id="repositoryImport" mnemonicParsing="false" onAction="#importRepository" text="Import components" />
+                        <MenuItem fx:id="repositoryExport" mnemonicParsing="false" onAction="#exportRepository" text="Export components" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="DQGUI">
+                     <items>
+                        <MenuItem fx:id="exploreReports" mnemonicParsing="false" onAction="#exploreReports" text="Explore Reports">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#dqguiRemote" text="DQGUI Remote">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#rserveInstanceWindow" text="RServe Instance">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="T" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" onAction="#propertiesWindow" />
+                        <MenuItem fx:id="databaseWizard" mnemonicParsing="false" onAction="#databaseWizardWindow" text="Database Wizard">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="databaseEnvironmentComparison" mnemonicParsing="false" onAction="#databaseEnvironmentComparison" text="Database Comparison">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#propertiesWindow" text="Properties" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Help">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#helpWindow" text="Help and Documentation" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#licensingWindow" text="Licensing" />
+                        <MenuItem mnemonicParsing="false" onAction="#aboutWindow" text="About" />
+                     </items>
+                  </Menu>
+              </menus>
+            </MenuBar>
+            <HBox fx:id="navigation" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/img/ui/www.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ComboBox fx:id="executionEnvironment" minWidth="-Infinity" promptText="LOKAL">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </ComboBox>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" smooth="false">
+                     <image>
+                        <Image url="@../../assets/img/ui/envs.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ComboBox fx:id="databaseEnvironment" minWidth="150.0">
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </ComboBox>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" smooth="false">
+                     <image>
+                        <Image url="@../../assets/img/ui/settings(3).png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ComboBox fx:id="actionBox" editable="true" minWidth="150.0" promptText="THIS_IS_REPLACED">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ComboBox>
+                  <Button fx:id="generateReportButton" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#invokeIQM4HD" prefWidth="90.0" text="Run Action">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                     <tooltip>
+                        <Tooltip text="Generate an IQM4HD report with the selected environment and action" />
+                     </tooltip>
+                  </Button>
+                  <Separator orientation="VERTICAL" prefHeight="200.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Separator>
+                  <CheckBox fx:id="optimize" mnemonicParsing="false" styleClass="font-12" text="IQM4HD optimize">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <Separator orientation="VERTICAL" prefHeight="200.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="8.0" top="5.0" />
+                     </HBox.margin>
+                  </Separator>
+                  <CheckBox fx:id="autosuggest" mnemonicParsing="false" styleClass="font-12" text="Editor autosuggestions">
+                     <HBox.margin>
+                        <Insets left="6.0" right="6.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="autoindent" mnemonicParsing="false" styleClass="font-12" text="Editor auto-indent">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></CheckBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <SplitPane fx:id="splitpane" dividerPositions="0.26152304609218435" nodeOrientation="LEFT_TO_RIGHT" BorderPane.alignment="CENTER">
+         <items>
+            <BorderPane fx:id="leftSidePane">
+               <center>
+                  <TabPane fx:id="fileDatabaseManagementTab" styleClass="component-pane" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                    <tabs>
+                      <Tab closable="false" text="Sources">
+                           <content>
+                              <TableView fx:id="sourcesTable" styleClass="focus-fix-main">
+                                 <columns>
+                                    <TableColumn editable="false" prefWidth="75.0" text="ERROR_NO_REPO" />
+                                 </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </content></Tab>
+                      <Tab closable="false" text="Actions">
+                           <content>
+                              <TableView fx:id="actionsTable" styleClass="focus-fix-main">
+                                <columns>
+                                  <TableColumn editable="false" prefWidth="75.0" text="ERROR_NO_REPO" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </content></Tab>
+                        <Tab closable="false" text="Checks">
+                           <content>
+                              <TableView fx:id="checksTable" styleClass="focus-fix-main">
+                                <columns>
+                                  <TableColumn editable="false" prefWidth="75.0" text="ERROR_NO_REPO" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </content></Tab>
+                        <Tab closable="false" text="DB">
+                           <content>
+                              <TreeView fx:id="treeView" showRoot="false">
+                                 <styleClass>
+                                    <String fx:value="tree-view-main-fix" />
+                                    <String fx:value="focus-fix-main" />
+                                 </styleClass></TreeView>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </center>
+               <top>
+                  <HBox BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="repositoryReloadButton" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#reloadRepository">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../assets/img/ui/refresh.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Reload selected reload repository" />
+                           </tooltip>
+                        </Button>
+                        <TextField fx:id="searchField" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="Type to search for component..." HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="searchResetButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#resetSearchResults" prefHeight="30.0" prefWidth="30.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../assets/img/ui/clear-search.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="Reset search" />
+                           </tooltip>
+                        </Button>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                  </HBox>
+               </top>
+            </BorderPane>
+            <SplitPane dividerPositions="0.65">
+               <items>
+                  <TabPane fx:id="editorTabs" tabClosingPolicy="ALL_TABS">
+                    <tabs>
+                      <Tab fx:id="welcome" text="Welcome">
+                           <content>
+                              <BorderPane>
+                                 <bottom>
+                                    <CheckBox mnemonicParsing="false" onAction="#disableWelcome" styleClass="font-12" text="Don't show next time" BorderPane.alignment="TOP_LEFT">
+                                       <BorderPane.margin>
+                                          <Insets bottom="5.0" left="10.0" top="5.0" />
+                                       </BorderPane.margin>
+                                    </CheckBox>
+                                 </bottom>
+                              </BorderPane>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+                  <VBox fx:id="reportsVbox" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <HBox alignment="CENTER" styleClass="font-14">
+                           <children>
+                              <Label alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" text="Reports" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <TreeView fx:id="reportView" showRoot="false" VBox.vgrow="ALWAYS">
+                           <styleClass>
+                              <String fx:value="reports" />
+                              <String fx:value="focus-fix-main" />
+                              <String fx:value="tree-view-main-fix" />
+                           </styleClass></TreeView>
+                     </children>
+                  </VBox>
+               </items>
+            </SplitPane>
+         </items>
+      </SplitPane>
+   </center>
+</BorderPane>

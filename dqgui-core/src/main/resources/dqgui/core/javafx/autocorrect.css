@@ -1,0 +1,22 @@
+@font-face {
+    src: url('fonts/roboto/RobotoMono-Regular.ttf');
+}
+
+.list-view {
+	-fx-focus-color: white;
+    -fx-faint-focus-color: white;
+    -fx-background-color : white;
+    -fx-border-color: black;
+}
+
+.list-view .list-cell {
+    -fx-font-family: 'Roboto Mono';
+    -fx-font-size: 1.3em;
+	-fx-text-fill: black;
+	-fx-background-color: white;
+}
+
+.list-view .list-cell:selected {
+	-fx-background-color: darkgray;
+	-fx-text-fill: white;
+}

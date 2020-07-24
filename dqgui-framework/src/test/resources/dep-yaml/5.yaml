@@ -1,0 +1,12 @@
+#SERIALIZATION_ROOT_IS_NULL
+
+validate: true
+container: framework.mock.ContainerSerializeRootNull
+consumer-roots:
+   - id: test
+     root: framework.mock
+
+dependencies:
+- field: mock
+  target: framework.mock.MockFieldSerialize
+  serialize: mock.json

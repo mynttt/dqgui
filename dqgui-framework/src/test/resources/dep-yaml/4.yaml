@@ -1,0 +1,12 @@
+#SHOULD_BE_SERIALIZED_DOES_NOT_EXTEND_RECOVERABLE
+
+validate: true
+container: framework.mock.ContainerSerializeRoot
+consumer-roots:
+   - id: test
+     root: framework.mock
+
+dependencies:
+- field: mock
+  target: framework.mock.MockField
+  serialize: mock.json

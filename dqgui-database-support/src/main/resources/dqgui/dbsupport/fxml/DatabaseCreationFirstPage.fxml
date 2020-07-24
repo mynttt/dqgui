@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="600.0" prefWidth="535.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hshannover.dqgui.dbsupport.gui.wizard.DatabaseCreationFirstPage">
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" minHeight="40.0" minWidth="-Infinity" prefHeight="55.0" prefWidth="535.0" styleClass="footer-region" BorderPane.alignment="CENTER">
+         <children>
+            <Button minWidth="100.0" mnemonicParsing="false" onAction="#close" styleClass="dropshadow-button" text="Close">
+               <HBox.margin>
+                  <Insets right="12.0" />
+               </HBox.margin>
+            </Button>
+            <Button minWidth="100.0" mnemonicParsing="false" onAction="#next" styleClass="dropshadow-button" text="Next">
+               <HBox.margin>
+                  <Insets right="12.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefWidth="535.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" styleClass="font-24" text="Create Connections">
+                     <HBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="font-14" text="Select the database engine of your connection">
+                     <HBox.margin>
+                        <Insets left="30.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <ComboBox fx:id="engines" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" promptText="NOT_LOADED" styleClass="dqgui-textfield">
+               <VBox.margin>
+                  <Insets left="30.0" right="30.0" top="10.0" />
+               </VBox.margin>
+            </ComboBox>
+            <HBox>
+               <children>
+                  <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="font-14" text="Select the environment the connection should be stored in">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="30.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets top="11.0" />
+               </VBox.margin>
+            </HBox>
+            <ComboBox fx:id="environments" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" promptText="NOT_LOADED" styleClass="dqgui-textfield" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="30.0" right="30.0" top="10.0" />
+               </VBox.margin>
+            </ComboBox>
+            <HBox alignment="CENTER" prefWidth="535.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" styleClass="font-24" text="Manage Environments">
+                     <HBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefWidth="500.0">
+               <children>
+                  <TextField fx:id="environmentInput" maxHeight="1.7976931348623157E308" prefWidth="333.0" styleClass="dqgui-textfield" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="15.0" left="30.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#createEnvironment" styleClass="dropshadow-button" text="Create Environment">
+                     <HBox.margin>
+                        <Insets bottom="17.0" left="15.0" right="30.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="16.0" prefWidth="535.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ListView fx:id="environmentList" editable="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="125.0" styleClass="font-12" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="15.0" left="30.0" right="30.0" />
+                     </HBox.margin>
+                  </ListView>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <HBox alignment="CENTER" styleClass="headers-region" BorderPane.alignment="CENTER">
+         <children>
+            <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="headers-text" text="Environment Wizard">
+               <HBox.margin>
+                  <Insets bottom="15.0" top="15.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>

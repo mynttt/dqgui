@@ -1,0 +1,191 @@
+# This is a configuration file for the YamlConfigurableRelationalRepositorySupport class implementing queries that work with the postgres_schema.yml
+#
+# YamlConfigurableRelationalRepositorySupport uses prepared statements internally.
+#
+# The schema and column names are hard coded into the JdbcRepository implementation and must be adhered.
+#
+# < UNSAFE OPERATIONS >
+# These operations do not rely on prepared statements and are thus plainly replaced.
+#
+# __TABLE__  : Table to query for
+# __TYPE_TUPEL__    : Tupel of types for multiple selection (for IN queries used by search)
+#
+# < PREPARED PARAMETERS>
+# :project       : Project identifier associated with query
+
+# :type          : Type of component (Magic Integer defined in DSLComponent enum)
+# :content       : text of components source code
+# :name          : Name of component
+# :new_name      : Name in move (to)
+# :old_name      : Name in move(from)
+# :extra_data    : Extra data json field
+#
+# :hash            : Hash identifier of result
+# :dqgui_meta      : JSON Serialized DQGUI metadata
+# :iqm4hd_report   : JSON Serialized IQM4HD metadata
+# :iqm4hd_feedback : JSON Serialized IQM4HD user report feedback
+#
+# :project_name    : Name of project
+# :guid            : guid of project
+# :environments    : database environments associated with project
+#
+# The return aliased as are only required if the common JDBC repository is used. 
+# You are free to choose your own identifiers with your own implementation.
+#
+# As a standard a global check will get the project id 0. So to query for all components it must be searched in the tupel (0, :project).
+#
+# --------------------------------------------------------------------------------------
+
+# This query should deliver no results.
+# It is required to fetch the JDBC meta data set to check if the correct table schema is in place.
+#
+# Unsafe operation __TABLE__ is required because prepared statements don't allow you to SQL meta program queries.
+Q_ALL_COLUMNS_NO_RESULTS: >
+  SELECT * FROM __TABLE__ WHERE 1 != 1;
+
+# Check if a component exists by returning the count of matching rows.
+# Must query global and project related entries as duplicate name identifiers should not exist
+#
+# Returns:
+# - matches: amount of matches (INTEGER) aliased as 'matches'
+Q_COMPONENT_EXISTS: >
+  SELECT COUNT(type) AS matches FROM dqgui_repo WHERE type = :type AND name = :name AND project IN (0, :project);
+
+# Create an empty component within the repository schema.
+Q_COMPONENT_CREATE_EMPTY: >
+  INSERT INTO dqgui_repo (project, type, name, content, extra_data) VALUES (:project, :type, :name, '', '{}');
+
+# Read a component's source from the repository
+#
+# Returns:
+# - content: string content of source aliased as 'content'
+Q_COMPONENT_READ: >
+  SELECT content FROM dqgui_repo WHERE type = :type AND name = :name AND project = :project;
+
+# Update a components source code and extra data
+Q_COMPONENT_UPDATE: >
+  UPDATE dqgui_repo SET content = :content, extra_data = :extra_data::json WHERE type = :type AND name = :name AND project = :project;
+  
+# Update a components extra data only
+Q_COMPONENT_UPDATE_EXTRA_DATA_ONLY: >
+  UPDATE dqgui_repo SET extra_data = :extra_data::json WHERE type = :type AND name = :name AND project = :project;
+
+# Deletes a component from the repository
+Q_COMPONENT_DELETE: >
+  DELETE FROM dqgui_repo WHERE type = :type AND name = :name AND project = :project;
+
+# Moves a component from one name to another name
+Q_COMPONENT_MOVE: >
+  UPDATE dqgui_repo SET name = :new_name WHERE type = :type AND name = :old_name AND project = :project;
+
+# List all components in the repository.
+# Only lists type and name not the content.
+#
+# Returns:
+# - project: project id aliased as 'project'
+# - type: type identifier aliased as 'type'
+# - name: name aliased as 'name'
+# - extra_data: extra_data aliased as 'extra_data'
+Q_COMPONENT_LIST_ALL: >
+  SELECT project, type, name, extra_data FROM dqgui_repo WHERE project IN (0, :project);
+
+# List all hashes within the result table.
+#
+# Returns:
+# - hash: hash identifier string aliased as 'hash'
+Q_RESULT_LIST_ALL: >
+  SELECT hash FROM dqgui_results WHERE project = :project;
+
+# Delete a result form the result table by using the hash primary key.
+Q_RESULT_DELETE: >
+  DELETE FROM dqgui_results WHERE hash = :hash AND project = :project;
+
+# Read a result by using the hash primary key.
+#
+# Returns:
+# - iqm4hd_report: Serialized IQM4HD JSON metadata as string aliased as 'iqm4hd_report'
+# - dqgui_meta: Serialized DQGUI JSON metadata as string aliased as 'dqgui_meta'
+Q_RESULT_READ: >
+  SELECT iqm4hd_report, dqgui_meta FROM dqgui_results WHERE hash = :hash AND project = :project;
+
+# Create a result by inserting it into the results table.
+Q_RESULT_CREATE: >
+  INSERT INTO dqgui_results (project, hash, dqgui_meta, iqm4hd_report, iqm4hd_feedback) VALUES (:project, :hash, :dqgui_meta::json, :iqm4hd_report::json, :iqm4hd_feedback::json);
+  
+# Request all components and their source that match a given type.
+# Multiple types could be queried here.
+#
+# Unsafe operation __TYPE_TUPEL__ is required to check which types are searched in.
+#
+# Returns:
+# - type:    type identifier aliased as 'type'
+# - name:    name aliased as 'name'
+# - content: source code of identifier aliased as 'content'
+Q_REQUEST_COMPONENTS_FOR_SEARCH: >
+  SELECT name, type, content FROM dqgui_repo WHERE type IN __TYPE_TUPEL__ AND project IN (0, :project);
+
+# Create a dummy project with the ID 0 to store global checks with.
+Q_PROJECT_CREATE_GLOBAL_DUMMY_ENTRY: >
+  INSERT INTO dqgui_index(project, name, guid, environments) VALUES (0, 'GLOBAL_DUMMY', '', '{}');
+  
+# List all projects excluding the dummy project with the id 0
+#
+# Returns:
+# - project: identifier of the project
+# - name   : name of project
+# - guid   : guid of project
+Q_PROJECT_LIST_ALL: >
+  SELECT project, name, guid FROM dqgui_index WHERE project > 0;
+
+# Create a new project.
+# It is possible to use :project here if the database does not have an auto increment feature.
+# In this postgres sample DEFAULT is used since our schema is backed by a sequence
+Q_PROJECT_CREATE: >
+  INSERT INTO dqgui_index(project, name, guid, environments) VALUES (DEFAULT, :project_name, :guid, :environments::json);
+
+# Delete all repo entries for a given project id
+Q_PROJECT_DELETE_REPO: >
+  DELETE FROM dqgui_repo WHERE project = :project;
+
+# Delete all results for a given project id
+Q_PROJECT_DELETE_RESULTS: >
+  DELETE FROM dqgui_results WHERE project = :project;
+
+# Delete the project entry itself
+Q_PROJECT_DELETE_PROJECT_ENTRY: >
+  DELETE FROM dqgui_index WHERE project = :project;
+
+#Fetch database environments for project
+#
+# Returns:
+# - environments : serialized database environment as json
+Q_PROJECT_FETCH_DATABASE_ENVIRONMENTS: >
+  SELECT environments FROM dqgui_index WHERE project = :project;
+
+# Updated database environments for a project
+Q_PROJECT_UPDATE_DATABASE_ENVIRONMENTS: >
+  UPDATE dqgui_index SET environments = :environments::json WHERE project = :project;
+  
+# Check if a project exists by returning the count of matching rows.
+#
+# Returns:
+# - matches: amount of matches (INTEGER) aliased as 'matches'
+Q_PROJECT_EXISTS: >
+  SELECT COUNT(project) AS matches FROM dqgui_index WHERE project = :project;
+  
+# Read feedback for hash
+#
+# Returns:
+# iqm4hd_feedback : serialized feedback as json
+Q_FEEDBACK_READ: >
+  SELECT iqm4hd_feedback FROM dqgui_results WHERE hash = :hash AND project = :project;
+  
+# Write feedback for hash
+Q_FEEDBACK_WRITE: >
+  UPDATE dqgui_results SET iqm4hd_feedback = :iqm4hd_feedback::json WHERE hash = :hash AND project = :project;
+  
+Q_PROMOTION_TO_GLOBAL: >
+  UPDATE dqgui_repo SET project = 0 WHERE project = :project AND type = :type AND name = :name;
+  
+Q_DEMOTION_TO_LOCAL: >
+  UPDATE dqgui_repo SET project = :project WHERE project = 0 AND type = :type AND name = :name;

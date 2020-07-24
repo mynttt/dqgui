@@ -1,0 +1,48 @@
+# Site title and subtitle. This is used in _includes/header.html
+title: 'DQGUI Documentation'
+subtitle: 'User and developer documentation'
+
+# Default categories (in order) to appear in the navigation
+sections: [
+    ['doc', 'Documentation'],
+    ['tut', 'Tutorial'],
+    ['ref', 'Reference'],
+    ['dev', 'Developers'],
+    ['post', 'Posts']
+]
+
+# Keep as an empty string if served up at the root. If served up at a specific
+# path (e.g. on GitHub pages) leave off the trailing slash, e.g. /my-project
+baseurl: ''
+
+# Dates are not included in permalinks
+permalink: none
+
+# Since these are pages, it doesn't really matter
+future: true
+
+# Exclude non-site files
+exclude: ['bin', 'README.md', 'Gemfile', 'Gemfile.lock']
+
+defaults:
+  - values:
+      layout: default
+
+markdown: kramdown
+
+kramdown:
+  input:          GFM
+  # https://github.com/jekyll/jekyll/pull/4090
+  syntax_highlighter: rouge
+
+  # Rouge Highlighter in Kramdown › http://kramdown.gettalong.org/syntax_highlighter/rouge.html
+  # span, block element options fall back to global
+  syntax_highlighter_opts:
+    # Rouge Options › https://github.com/jneen/rouge#full-options
+    css_class: 'highlight'
+    #line_numbers: true # bad idea, spans don't need linenos and would inherit this option
+    span:
+      line_numbers: false
+    block:
+      line_numbers: false
+      start_line: 1

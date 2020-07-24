@@ -1,0 +1,7 @@
+#CONTAINER_HAS_STATIC_VARIABLE
+
+validate: true
+container: framework.mock.ContainerStaticField
+consumer-roots:
+   - id: test
+     root: framework.mock

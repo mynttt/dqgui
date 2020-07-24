@@ -1,0 +1,16 @@
+#FIELD_IN_CONSUMER_IS_STATIC
+
+validate: true
+container: framework.mock.ContainerMockField
+consumer-roots:
+   - id: test
+     root: framework.mock
+
+dependencies:
+- field: mock
+  target: framework.mock.MockField
+
+consumers:
+   test:
+      - ConsumerMockStatic:
+        - mock

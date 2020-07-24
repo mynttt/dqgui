@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+
+
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label minWidth="-Infinity" styleClass="font-26" stylesheets="@../../style.css" text="Failed to load report" HBox.hgrow="ALWAYS">
+         <HBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </HBox.margin>
+      </Label>
+   </children>
+</HBox>
